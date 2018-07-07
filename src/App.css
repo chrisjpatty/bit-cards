@@ -1,0 +1,27 @@
+.fade-in-fast{
+  animation: fade-in 150ms;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+  from{
+    opacity: 0;
+  }
+  top{
+    opacity: 1
+  }
+}
+
+.fade-out-fast{
+  animation: fade-out 150ms;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade-out {
+  from{
+    opacity: 1;
+  }
+  to{
+    opacity: 0
+  }
+}

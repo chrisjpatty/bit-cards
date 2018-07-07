@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  /* background: rgb(247, 247, 247); */
+  font-family: 'Roboto', sans-serif;
+}
+*{
+  box-sizing: border-box;
+}
+input, textarea, button, select{
+  font-family: 'Roboto', sans-serif;
+}
