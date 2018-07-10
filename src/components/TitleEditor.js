@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
+import RoundButton from './RoundButton'
 
 export default class TitleEditor extends React.Component {
   setTitle = e => {
@@ -9,7 +10,7 @@ export default class TitleEditor extends React.Component {
     this.input.select()
   }
   render() {
-    const { title } = this.props
+    const { title, swapSides } = this.props
     return (
       <TitleWrapper>
         <TitleInput
@@ -22,6 +23,11 @@ export default class TitleEditor extends React.Component {
           onFocus={this.select}
           onChange={this.setTitle}
         />
+        <ButtonColumn>
+          <RoundButton onClick={swapSides}>
+            Swap Sides
+          </RoundButton>
+        </ButtonColumn>
       </TitleWrapper>
     )
   }
@@ -29,25 +35,37 @@ export default class TitleEditor extends React.Component {
 
 const TitleWrapper = styled('div')({
   width: '100%',
-  maxWidth: 900
+  display: 'flex',
+  flexDirection: 'row',
+  maxWidth: 1000
 })
 
 const TitleInput = styled('input')(
   {
-    width: '100%',
+    flex: '1 1 auto',
     height: 80,
     fontSize: 48,
     border: 'none',
     outline: 'none',
     background: 'none',
     fontWeight: 600,
+    paddingLeft: 20,
     textTransform: 'uppercase',
-    textAlign: 'center'
+    textAlign: 'left'
   },
   ({ theme }) => ({
     color: theme.gray.dark,
+    '&::placeholder': {
+      color: theme.gray.extraLight
+    },
     '&:focus': {
       color: theme.gray.extraDark
     }
   })
 )
+
+const ButtonColumn = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  paddingRight: 30
+})

@@ -1,5 +1,3 @@
-'use strict';
-
 class CancelError extends Error {
 	constructor(reason) {
 		super(reason || 'Promise was canceled');

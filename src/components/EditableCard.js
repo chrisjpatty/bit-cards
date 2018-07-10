@@ -35,6 +35,7 @@ export default class EditableCard extends React.Component {
           onColorChange={color => {
             this.setValue('color', color)
           }}
+          label="FRONT"
         />
         <EditableCardSide
           value={back}
@@ -46,6 +47,7 @@ export default class EditableCard extends React.Component {
           onColorChange={color => {
             this.setValue('color', color)
           }}
+          label="BACK"
         />
       </Wrapper>
     )
@@ -74,7 +76,7 @@ const StyledTextArea = styled('textarea')(
     background: '#fff',
     width: '92%',
     height: '92%',
-    fontSize: '3vh',
+    fontSize: '4vh',
     outline: 'none',
     resize: 'none',
     borderRadius: 5,
@@ -93,6 +95,17 @@ const StyledTextArea = styled('textarea')(
   })
 )
 
+const CardLabel = styled('div')({
+  position: 'absolute',
+  fontWeight: 600,
+  left: 25,
+  top: 22,
+  fontSize: 10,
+  // transform: 'rotate(-90deg)'
+}, ({theme}) => ({
+  color: theme.gray.extraLight
+}))
+
 class EditableCardSide extends React.Component {
   setSideContent = e => {
     if (this.props.value !== e.target.value) {
@@ -100,7 +113,7 @@ class EditableCardSide extends React.Component {
     }
   }
   render() {
-    const { value, color, onColorChange, noColorPicker } = this.props
+    const { value, color, onColorChange, noColorPicker, label } = this.props
     return (
       <SideWrapper>
         <StyledTextArea
@@ -112,6 +125,10 @@ class EditableCardSide extends React.Component {
         {
           !noColorPicker &&
           <ColorPickerWithButton color={color} onChange={onColorChange} />
+        }
+        {
+          label &&
+          <CardLabel>{label}</CardLabel>
         }
       </SideWrapper>
     )

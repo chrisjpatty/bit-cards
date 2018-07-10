@@ -7,21 +7,30 @@ import { history } from '../index'
 const HeaderWrapper = styled('header')({
   display: 'flex',
   flexDirection: 'row',
-  padding: 10
+  padding: '20px 10px'
 })
 
 const Links = styled('ul')({
   listStyle: 'none',
-  margin: 'none',
-  display: 'flex'
+  display: 'flex',
+  margin: 0,
+  padding: 0
 })
 
 const LinkWrapper = styled('li')({
   '& a': {
-    padding: 10,
-    textDecoration: 'none'
+    padding: '15px 20px',
+    textDecoration: 'none',
+    fontSize: 18
   }
-})
+}, ({theme}) => ({
+  '& a': {
+    color: theme.gray.light,
+    '&:hover': {
+      color: theme.gray.medium
+    }
+  }
+}))
 
 export default class Header extends React.Component{
   render(){

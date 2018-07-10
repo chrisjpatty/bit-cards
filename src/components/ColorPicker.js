@@ -107,6 +107,7 @@ const StyledButton = styled('button')({
   borderRadius: 5,
   margin: 10,
   border: 'none',
+  outline: 'none',
   transition: 'transform 150ms',
   '&:hover': {
     transform: 'scale(1.1)'
