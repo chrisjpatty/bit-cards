@@ -25,7 +25,8 @@ const initialState = {
       }
     ]
   },
-  deletedCard: null
+  deletedCard: null,
+  historyIndex: 0
 }
 
 const AppReducer = (state=initialState, action) => {
@@ -39,6 +40,10 @@ const AppReducer = (state=initialState, action) => {
       }
     case 'CLEAR_DELETED_CARD':
       return { ...state, deletedCard: null }
+    case 'INCREMENT_HISTORY_INDEX':
+      return {...state, historyIndex: state.historyIndex + 1}
+    case 'SET_HISTORY_INDEX':
+      return {...state, historyIndex: state.historyIndex}
     default:
       return state
   }

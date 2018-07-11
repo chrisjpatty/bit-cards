@@ -34,10 +34,15 @@ class Edit extends React.Component {
     this.runningWorker = encode(value).then(encoded => {
       history.push({
         pathname: history.location.pathname,
-        search: `?${encoded}`
+        hash: `#${encoded}`,
+        state: {index: this.props.historyIndex + 1}
       })
       this.runningWorker = null
+      this.incrementHistoryIndex()
     })
+  }
+  incrementHistoryIndex = () => {
+    this.props.dispatch({ type: 'INCREMENT_HISTORY_INDEX' })
   }
   setDebouncedEncodedValue = debounce(this.setEncodedValue, 300)
   setGlobalValue = (callback, options={}) => {
@@ -151,7 +156,7 @@ class Edit extends React.Component {
   playCards = () => {
     this.props.history.push({
       pathname: '/play',
-      search: this.props.location.search
+      hash: this.props.location.hash
     })
   }
   clearDeleteCache = () => {
@@ -208,5 +213,6 @@ class Edit extends React.Component {
 export default connect(state => ({
   value: state.app.value,
   cache: state.app.cache,
-  deletedCard: state.app.deletedCard
+  deletedCard: state.app.deletedCard,
+  historyIndex: state.app.historyIndex
 }))(Edit)

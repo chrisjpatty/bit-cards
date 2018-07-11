@@ -64,7 +64,7 @@ class Play extends React.Component{
   stopPlaying = () => {
     this.props.history.push({
       pathname: '/edit',
-      search: this.props.location.search
+      hash: this.props.location.hash
     })
   }
   flipCard = () => {

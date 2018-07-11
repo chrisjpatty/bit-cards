@@ -41,7 +41,7 @@ export default class Header extends React.Component{
             <LinkWrapper>
               <Link to={{
                 pathname: '/edit',
-                search: history.location.search
+                hash: history.location.hash
               }}>
                 New Deck
               </Link>
@@ -49,7 +49,7 @@ export default class Header extends React.Component{
             <LinkWrapper>
               <Link to={{
                 pathname: '/howitworks',
-                search: history.location.search
+                hash: history.location.hash
               }}>
                 How it works
               </Link>
@@ -57,7 +57,7 @@ export default class Header extends React.Component{
             <LinkWrapper>
               <Link to={{
                 pathname: '/examples',
-                search: history.location.search
+                hash: history.location.hash
               }}>
                 Examples
               </Link>
@@ -65,7 +65,7 @@ export default class Header extends React.Component{
             <LinkWrapper>
               <Link to={{
                 pathname: '/about',
-                search: history.location.search
+                hash: history.location.hash
               }}>
                 About
               </Link>
@@ -75,7 +75,7 @@ export default class Header extends React.Component{
         <div className={css({
           marginLeft: 'auto'
         })}>
-          {`Bytes: ${history.location.search.length}`}
+          {`Bytes: ${history.location.hash.length}`}
         </div>
       </HeaderWrapper>
     )

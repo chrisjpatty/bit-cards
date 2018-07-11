@@ -12,7 +12,16 @@ import './App.css';
 
 class App extends Component {
   componentDidMount = () => {
-    decode(this.props.location.search.slice(1)).then(value => {
+    this.getStateFromHash()
+    window.addEventListener('popstate', this.handlePopState)
+  }
+  runningWorker = null;
+  getStateFromHash = () => {
+    if (this.runningWorker && this.runningWorker.cancel) {
+      this.runningWorker.cancel()
+    }
+    this.runningWorker = decode(this.props.location.hash.slice(1)).then(value => {
+      this.runningWorker = null;
       const validShape = value.hasOwnProperty('cards') && value.hasOwnProperty('title')
       value = {
         ...value,
@@ -33,6 +42,23 @@ class App extends Component {
       this.props.history.push(this.props.location.pathname)
     })
   }
+  componentWillUnmount = () => {
+    window.removeEventListenter('popstate', this.handlePopState)
+  }
+  handlePopState = e => {
+    const state = (e.state || {}).state || {};
+    const currentIndex = state.index || null;
+    const prevIndex = this.props.historyIndex;
+    if(currentIndex !== null){
+      this.props.dispatch({
+        type: 'SET_HISTORY_INDEX',
+        historyIndex: currentIndex
+      })
+      if(currentIndex !== prevIndex){
+        this.getStateFromHash()
+      }
+    }
+  }
   render() {
     return (
       <div className="App">
@@ -47,8 +73,9 @@ class App extends Component {
 export default compose(
   withRouter,
   connect(
-    (_, props) => ({
-      location: props.location
+    (state, props) => ({
+      location: props.location,
+      historyIndex: state.app.historyIndex
     })
   )
 )(App)
