@@ -14,10 +14,18 @@ class App extends Component {
   componentDidMount = () => {
     decode(this.props.location.search.slice(1)).then(value => {
       const validShape = value.hasOwnProperty('cards') && value.hasOwnProperty('title')
+      value = {
+        ...value,
+        cards: value.cards.map(card => ({
+          ...card,
+          id: Math.random().toString(36).substring(2, 15)
+        }))
+      }
       if(validShape){
         this.props.dispatch({
           type: 'SET_VALUE',
-          value
+          value,
+          cache: value
         })
       }
     })

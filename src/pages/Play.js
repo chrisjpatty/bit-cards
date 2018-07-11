@@ -6,6 +6,7 @@ import { css } from 'emotion'
 import FOB from '../components/FOB'
 import ActiveCard from '../components/ActiveCard'
 import CircularButton from '../components/CircularButton'
+import { COLORS } from '../components/ColorPicker'
 
 const StopIcon = styled('div')({
   pointerEvents: 'none',
@@ -44,6 +45,17 @@ const NextButtonStyles = css({
   textTransform: 'uppercase'
 })
 
+const Background = styled('div')({
+  background: '#fff',
+  transition: 'background 500ms',
+  position: 'fixed',
+  width: '120vw',
+  height: '120vh',
+  left: '-10vw',
+  top: '-10vh',
+  zIndex: -99
+})
+
 class Play extends React.Component{
   state = {
     activeIndex: 0,
@@ -73,6 +85,7 @@ class Play extends React.Component{
     }))
   }
   render(){
+    const { enableColors, doubleSided } = this.props;
     const { cards, title } = this.props.value;
     return(
       <Page>
@@ -92,24 +105,35 @@ class Play extends React.Component{
         >
           {`<`}
         </CircularButton>
-        <CircularButton
-          className={FlipButtonStyles}
-          onClick={this.flipCard}
-        >
-          Flip
-        </CircularButton>
+        {
+          doubleSided &&
+          <CircularButton
+            className={FlipButtonStyles}
+            onClick={this.flipCard}
+          >
+            Flip
+          </CircularButton>
+        }
         <CircularButton
           className={NextButtonStyles}
           onClick={this.incrementActiveIndex}
         >
           {`>`}
         </CircularButton>
+        {
+          enableColors &&
+          <Background style={{
+            background: COLORS[cards[this.state.activeIndex].color].color
+          }} />
+        }
       </Page>
     )
   }
 }
 export default connect(
   state => ({
-    value: state.app.value
+    value: state.app.value,
+    enableColors: state.app.value.clr ? true : false,
+    doubleSided: state.app.value.sds === 2
   })
 )(Play)

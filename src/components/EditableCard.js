@@ -1,16 +1,23 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'react-emotion'
-import {COLORS, ColorPicker} from './ColorPicker'
+import { css } from 'emotion'
+import { COLORS, ColorPicker } from './ColorPicker'
+import RoundButton from './RoundButton'
 // import { css } from 'emotion'
 // import ContentEditable from "react-sane-contenteditable";
 
 const Wrapper = styled('div')({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  marginBottom: '3vw',
+  '&:last-child': {
+    marginBottom: 0
+  }
 })
 
-export default class EditableCard extends React.Component {
+class EditableCard extends React.Component {
   setValue = (key, value) => {
     this.props.onChange(
       {
@@ -20,8 +27,11 @@ export default class EditableCard extends React.Component {
       this.props.index
     )
   }
+  deleteCard = () => {
+    this.props.deleteCard(this.props.index)
+  }
   render() {
-    const { card } = this.props
+    const { card, enableColors, doubleSided } = this.props
     const { front, back, color } = card
     // console.log(card);
     return (
@@ -29,54 +39,53 @@ export default class EditableCard extends React.Component {
         <EditableCardSide
           value={front}
           color={color}
+          noColorPicker={doubleSided ? true : !enableColors}
           onChange={value => {
             this.setValue('front', value)
           }}
           onColorChange={color => {
             this.setValue('color', color)
           }}
+          onRequestDelete={this.deleteCard}
           label="FRONT"
+          deleteButton
+          left
         />
-        <EditableCardSide
-          value={back}
-          color={color}
-          noColorPicker
-          onChange={value => {
-            this.setValue('back', value)
-          }}
-          onColorChange={color => {
-            this.setValue('color', color)
-          }}
-          label="BACK"
-        />
+        {doubleSided && (
+          <EditableCardSide
+            value={back}
+            color={color}
+            noColorPicker={!enableColors}
+            onChange={value => {
+              this.setValue('back', value)
+            }}
+            onColorChange={color => {
+              this.setValue('color', color)
+            }}
+            label="BACK"
+            right
+          />
+        )}
       </Wrapper>
     )
   }
 }
+export default connect(state => ({
+  enableColors: state.app.value.clr ? true : false,
+  doubleSided: state.app.value.sds === 2
+}))(EditableCard)
 
 const SideWrapper = styled('div')({
-  padding: '3%',
-  width: '50%',
-  paddingTop: '40%',
-  position: 'relative',
-  '&:first-child': {
-    paddingRight: '3%'
-  },
-  '&:last-child': {
-    paddingLeft: '3%'
-  }
+  position: 'relative'
 })
 
 const StyledTextArea = styled('textarea')(
   {
-    position: 'absolute',
-    left: '3%',
-    top: '3%',
     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.10)',
     background: '#fff',
-    width: '92%',
-    height: '92%',
-    fontSize: '4vh',
+    width: '45vw',
+    height: '35vw',
+    fontSize: '2.8vw',
     outline: 'none',
     resize: 'none',
     borderRadius: 5,
@@ -92,19 +101,41 @@ const StyledTextArea = styled('textarea')(
   },
   ({ theme }) => ({
     border: `1px solid ${theme.gray.extraExtraLight}`
-  })
+  }),
+  ({ right, theme }) =>
+    right
+      ? {
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          borderLeft: 'none',
+          marginLeft: 3
+          // background: '#fcfcfc'
+        }
+      : {},
+  ({ left }) =>
+    left
+      ? {
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+          borderRight: 'none',
+          marginRight: 3
+        }
+      : {}
 )
 
-const CardLabel = styled('div')({
-  position: 'absolute',
-  fontWeight: 600,
-  left: 25,
-  top: 22,
-  fontSize: 10,
-  // transform: 'rotate(-90deg)'
-}, ({theme}) => ({
-  color: theme.gray.extraLight
-}))
+const CardLabel = styled('div')(
+  {
+    position: 'absolute',
+    fontWeight: 600,
+    left: '1vw',
+    top: '1vw',
+    fontSize: 10
+    // transform: 'rotate(-90deg)'
+  },
+  ({ theme }) => ({
+    color: theme.gray.extraLight
+  })
+)
 
 class EditableCardSide extends React.Component {
   setSideContent = e => {
@@ -113,7 +144,17 @@ class EditableCardSide extends React.Component {
     }
   }
   render() {
-    const { value, color, onColorChange, noColorPicker, label } = this.props
+    const {
+      value,
+      color,
+      onColorChange,
+      onRequestDelete,
+      noColorPicker,
+      label,
+      left,
+      right,
+      deleteButton
+    } = this.props
     return (
       <SideWrapper>
         <StyledTextArea
@@ -121,14 +162,25 @@ class EditableCardSide extends React.Component {
           value={value}
           onBlur={this.stopEditing}
           onChange={this.setSideContent}
+          left={left}
+          right={right}
         />
-        {
-          !noColorPicker &&
+        {!noColorPicker && (
           <ColorPickerWithButton color={color} onChange={onColorChange} />
-        }
+        )}
+        {label && <CardLabel>{label}</CardLabel>}
         {
-          label &&
-          <CardLabel>{label}</CardLabel>
+          deleteButton &&
+          <RoundButton
+            className={css({
+              position: 'absolute',
+              left: '2vw',
+              bottom: '2vw'
+            })}
+            onClick={onRequestDelete}
+          >
+            Delete
+          </RoundButton>
         }
       </SideWrapper>
     )
@@ -137,8 +189,8 @@ class EditableCardSide extends React.Component {
 
 const ButtonWrapper = styled('div')({
   position: 'absolute',
-  right: 50,
-  bottom: 50
+  right: '2vw',
+  bottom: '2vw'
 })
 
 const ColorButton = styled('button')({
@@ -152,7 +204,7 @@ const ColorButton = styled('button')({
   boxShadow: '0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08)',
   '&:focus': {
     boxShadow: '0 15px 30px 0 rgba(0,0,0,0.11), 0 5px 15px 0 rgba(0,0,0,0.08)',
-    opacity: .8,
+    opacity: 0.8,
     transform: 'scale(1)'
   },
   '&:hover': {
@@ -172,7 +224,7 @@ class ColorPickerWithButton extends React.Component {
     isOpen: false
   }
   openPicker = () => {
-    this.setState({ isOpen: true})
+    this.setState({ isOpen: true })
   }
   closePicker = () => {
     this.setState({ isOpen: false })
@@ -181,7 +233,7 @@ class ColorPickerWithButton extends React.Component {
     this.props.onChange(color)
   }
   render() {
-    const { color } = this.props;
+    const { color } = this.props
     const selected = COLORS[color] || {}
     return (
       <React.Fragment>
@@ -195,15 +247,14 @@ class ColorPickerWithButton extends React.Component {
               this.button = r
             }}
           />
-          {
-            this.state.isOpen &&
-            <PickerWrapper className='fade-in-fast'>
+          {this.state.isOpen && (
+            <PickerWrapper className="fade-in-fast">
               <ColorPicker
                 closeModal={this.closePicker}
                 onSelect={this.selectColor}
               />
             </PickerWrapper>
-          }
+          )}
         </ButtonWrapper>
       </React.Fragment>
     )

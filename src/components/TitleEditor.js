@@ -1,8 +1,12 @@
 import React from 'react'
+import { compose } from 'redux'
+import { withRouter } from 'react-router'
 import styled from 'react-emotion'
+import { connect } from 'react-redux'
 import RoundButton from './RoundButton'
+import Checkbox from './Checkbox'
 
-export default class TitleEditor extends React.Component {
+class TitleEditor extends React.Component {
   setTitle = e => {
     this.props.onChange(e.target.value)
   }
@@ -10,7 +14,14 @@ export default class TitleEditor extends React.Component {
     this.input.select()
   }
   render() {
-    const { title, swapSides } = this.props
+    const {
+      title,
+      swapSides,
+      toggleColors,
+      toggleDoubleSided,
+      colorsEnabled,
+      doubleSided
+    } = this.props
     return (
       <TitleWrapper>
         <TitleInput
@@ -24,20 +35,33 @@ export default class TitleEditor extends React.Component {
           onChange={this.setTitle}
         />
         <ButtonColumn>
-          <RoundButton onClick={swapSides}>
-            Swap Sides
-          </RoundButton>
+          <Checkbox checked={colorsEnabled} onChange={toggleColors}>Colors</Checkbox>
+          <Checkbox checked={doubleSided} onChange={toggleDoubleSided}>Double Sided</Checkbox>
+          {
+            doubleSided &&
+            <RoundButton onClick={swapSides}>Swap Sides</RoundButton>
+          }
         </ButtonColumn>
       </TitleWrapper>
     )
   }
 }
+export default compose(
+  withRouter,
+  connect(state => ({
+    colorsEnabled: state.app.value.clr ? true : false,
+    doubleSided: state.app.value.sds === 2
+  }))
+)(TitleEditor)
 
 const TitleWrapper = styled('div')({
   width: '100%',
   display: 'flex',
-  flexDirection: 'row',
-  maxWidth: 1000
+  flexDirection: 'column',
+  paddingLeft: '5vw',
+  paddingRight: '5vw',
+  marginBottom: 20
+  // maxWidth: 1000
 })
 
 const TitleInput = styled('input')(
@@ -49,9 +73,10 @@ const TitleInput = styled('input')(
     outline: 'none',
     background: 'none',
     fontWeight: 600,
-    paddingLeft: 20,
+    paddingRight: 20,
     textTransform: 'uppercase',
-    textAlign: 'left'
+    textAlign: 'left',
+    width: '100%'
   },
   ({ theme }) => ({
     color: theme.gray.dark,

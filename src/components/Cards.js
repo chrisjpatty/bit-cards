@@ -13,7 +13,7 @@ const Wrapper = styled('div')({
   paddingBottom: 50
 })
 
-export default class Cards extends React.Component{
+export default class Cards extends React.Component {
   mergeCardChanges = (card, index) => {
     this.props.onChange([
       ...this.props.cards.slice(0, index),
@@ -21,22 +21,35 @@ export default class Cards extends React.Component{
       ...this.props.cards.slice(index + 1)
     ])
   }
-  render(){
-    const { cards, addCard } = this.props;
-    return(
+  deleteCardByIndex = index => {
+    const deletedCard = {...this.props.cards[index], index}
+    this.props.onChange([
+      ...this.props.cards.slice(0, index),
+      ...this.props.cards.slice(index + 1)
+    ], { deletedCard })
+  }
+  render() {
+    const { cards, addCard } = this.props
+    return (
       <Wrapper>
-        {
-          cards.map((card, i) => (
-            <EditableCard card={card} onChange={this.mergeCardChanges} index={i} key={i} />
-          ))
-        }
-        <div className={css({
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 15
-        })}>
+        {cards.map((card, i) => (
+          <EditableCard
+            card={card}
+            onChange={this.mergeCardChanges}
+            deleteCard={this.deleteCardByIndex}
+            index={i}
+            key={i}
+          />
+        ))}
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 15
+          })}
+        >
           <CircularButton onClick={addCard}>
             <PlusIcon />
           </CircularButton>

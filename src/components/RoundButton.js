@@ -9,7 +9,16 @@ const StyledButton = styled('button')({
   border: 'none',
   padding: '5px 10px',
   borderRadius: 10,
-  outline: 'none'
+  outline: 'none',
+  whiteSpace: 'nowrap',
+  margin: '0px 5px',
+  userSelect: 'none',
+  '&:first-child': {
+    marginLeft: 0
+  },
+  '&:last-child': {
+    marginRight: 0
+  }
 }, ({theme}) => ({
   color: theme.gray.mediumLight,
   borderTop: `1px solid ${theme.gray.extraExtraLight}`,
@@ -18,6 +27,9 @@ const StyledButton = styled('button')({
     boxShadow: theme.shadows.mid
   },
   '&:active': {
+    background: theme.gray.extraExtraLight
+  },
+  '&:focus': {
     background: theme.gray.extraExtraLight
   }
 }))
