@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'react-emotion'
 import { Motion, spring } from 'react-motion'
 
+const noop = () => {}
+
 export default class ActiveCard extends React.Component {
   state = {
     startX: 0,
@@ -14,6 +16,11 @@ export default class ActiveCard extends React.Component {
     draggedLeft: false,
     draggedRight: false,
     activeSide: 'front'
+  }
+  flip = () => {
+    this.setState(state => ({
+      activeSide: state.activeSide === 'front' ? 'back' : 'front'
+    }))
   }
   startDrag = e => {
     // e.preventDefault()
@@ -39,7 +46,6 @@ export default class ActiveCard extends React.Component {
       }
     })
   }
-  exited = false
   drag = e => {
     // e.preventDefault()
     const touch = e.touches[0]
@@ -76,21 +82,28 @@ export default class ActiveCard extends React.Component {
   }
   stopDrag = e => {
     // e.preventDefault()
-    if (this.state.draggedLeft || this.state.draggedRight) {
-      this.props.onExited()
-      this.exited = true
+    if (!this.state.dragging) {
+      this.flip()
+    } else {
+      if (this.state.draggedLeft || this.state.draggedRight) {
+        this.props.onExited()
+      }
+      this.setState({
+        dragging: false,
+        startedDragging: false
+      })
     }
-    this.setState({
-      dragging: false,
-      startedDragging: false
-    })
   }
   render() {
-    const { card, offset, shouldRender } = this.props
-    return (
-      shouldRender ?
+    const { card, offset, shouldRender, active } = this.props
+    return shouldRender ? (
       <Motion
-        defaultStyle={{ x: 0, y: 0 - 5 * (offset - 1) }}
+        defaultStyle={{
+          x: 0,
+          y: 0 - 10 * (offset - 1),
+          rotate: 0,
+          scale: 1 - 0.02 * (offset)
+        }}
         style={{
           x: spring(
             this.state.dragging
@@ -101,31 +114,51 @@ export default class ActiveCard extends React.Component {
                   ? this.state.pWidth * 2
                   : 0
           ),
-          y: spring(this.state.dragging ? this.state.y : 0 - 5 * offset)
+          y: spring(this.state.dragging ? this.state.y : 0 - 10 * offset),
+          rotate: spring(this.state.activeSide === 'front' ? 0 : 180),
+          scale: spring(1 - 0.02 * (offset + 1))
         }}
       >
-        {({ x, y }) => (
-          <Positioner>
-            <CardWrapper
-              style={{
-                transform: `translate(${
-                  this.state.dragging ? this.state.x : x
-                }px, ${this.state.dragging ? this.state.y : y}px)`
-              }}
-              innerRef={r => {
-                this.card = r
-              }}
-              onTouchStart={this.startDrag}
-              onTouchEnd={this.stopDrag}
-              onTouchMove={this.drag}
-            >
-              {card[this.state.activeSide]}
-            </CardWrapper>
+        {({ x, y, rotate, scale }) => (
+          <Positioner
+            style={{
+              transform: `translate(${
+                this.state.dragging ? this.state.x : x
+              }px, ${this.state.dragging ? this.state.y : y}px) scale(${scale})`
+            }}
+          >
+            <Perspective>
+              <Flipper
+                style={{
+                  transform: `rotateY(${rotate}deg)`
+                }}
+              >
+                <CardWrapper
+                  innerRef={r => {
+                    this.card = r
+                  }}
+                  onTouchStart={active ? this.startDrag : noop}
+                  onTouchEnd={active ? this.stopDrag : noop}
+                  onTouchMove={active ? this.drag : noop}
+                >
+                  {card.front}
+                </CardWrapper>
+                <CardWrapper
+                  style={{
+                    transform: 'rotateY(180deg)'
+                  }}
+                  onTouchStart={active ? this.startDrag : noop}
+                  onTouchEnd={active ? this.stopDrag : noop}
+                  onTouchMove={active ? this.drag : noop}
+                >
+                  {card.back}
+                </CardWrapper>
+              </Flipper>
+            </Perspective>
           </Positioner>
         )}
       </Motion>
-      : null
-    )
+    ) : null
   }
 }
 
@@ -142,12 +175,12 @@ export const CardWrapper = styled('div')(
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: '5vh',
+    position: 'absolute',
+    left: '-30vw',
+    top: '-25vh',
     textAlign: 'center',
     userSelect: 'none',
-    position: 'fixed',
-    left: '20vw',
-    top: '20vh',
-    zIndex: 10
+    backfaceVisibility: 'hidden'
     // paddingBottom: 'calc(7vh + 30px)'
   },
   ({ theme }) => ({
@@ -156,12 +189,23 @@ export const CardWrapper = styled('div')(
     [theme.media.sm]: {
       width: '95vw',
       height: '60vh',
-      left: '2.5vw',
-      top: '12vh'
+      left: '-47.5vw',
+      top: '-30vh'
     }
   })
 )
 
-export const Positioner = styled('div')(
+export const Positioner = styled('div')({
+  position: 'fixed',
+  left: '50vw',
+  top: '46vh',
+  zIndex: 10
+})
 
-)
+export const Perspective = styled('div')({
+  perspective: '150vh'
+})
+
+export const Flipper = styled('div')({
+  transformStyle: 'preserve-3d'
+})
