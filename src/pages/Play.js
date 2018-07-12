@@ -167,6 +167,7 @@ class Play extends React.Component {
                   index > this.state.activeIndex - 3 &&
                   index < this.state.activeIndex + 3
                 }
+                flippable={doubleSided}
                 offset={offset}
                 // index={index}
                 key={card.id || i}
@@ -195,8 +196,12 @@ class Play extends React.Component {
             preferTouch &&
             <DraggableCard
               active={this.state.activeIndex === 0}
-              card={instructionCard}
+              card={doubleSided ? instructionCard : {
+                ...instructionCard,
+                front: instructionCard.back
+              }}
               onExited={()=>{}}
+              flippable={doubleSided}
               shouldRender={
                 0 > this.state.activeIndex - 3 &&
                 0 < this.state.activeIndex + 3

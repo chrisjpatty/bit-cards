@@ -83,7 +83,9 @@ export default class ActiveCard extends React.Component {
   stopDrag = e => {
     // e.preventDefault()
     if (!this.state.dragging) {
-      this.flip()
+      if(this.props.flippable){
+        this.flip()
+      }
     } else {
       if (this.state.draggedLeft || this.state.draggedRight) {
         this.props.onExited()
@@ -95,7 +97,7 @@ export default class ActiveCard extends React.Component {
     }
   }
   render() {
-    const { card, offset, shouldRender, active } = this.props
+    const { card, offset, shouldRender, active, flippable } = this.props
     return shouldRender ? (
       <Motion
         defaultStyle={{
@@ -143,16 +145,19 @@ export default class ActiveCard extends React.Component {
                 >
                   {card.front}
                 </CardWrapper>
-                <CardWrapper
-                  style={{
-                    transform: 'rotateY(180deg)'
-                  }}
-                  onTouchStart={active ? this.startDrag : noop}
-                  onTouchEnd={active ? this.stopDrag : noop}
-                  onTouchMove={active ? this.drag : noop}
-                >
-                  {card.back}
-                </CardWrapper>
+                {
+                  flippable &&
+                  <CardWrapper
+                    style={{
+                      transform: 'rotateY(180deg)'
+                    }}
+                    onTouchStart={active ? this.startDrag : noop}
+                    onTouchEnd={active ? this.stopDrag : noop}
+                    onTouchMove={active ? this.drag : noop}
+                  >
+                    {card.back}
+                  </CardWrapper>
+                }
               </Flipper>
             </Perspective>
           </Positioner>
