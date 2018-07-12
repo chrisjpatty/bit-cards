@@ -10,6 +10,7 @@ import StaticCard from '../components/StaticCard'
 import CircularButton from '../components/CircularButton'
 import { withTheme } from 'emotion-theming'
 import { COLORS } from '../components/ColorPicker'
+import { Front, Back } from '../components/InstructionCard'
 
 const StopIcon = styled('div')({
   pointerEvents: 'none',
@@ -98,16 +99,12 @@ const defaultCard = {
   color: 17
 }
 
-const Controls = styled('div')(
-  ({ theme, hasTouch }) =>
-    hasTouch
-      ? {
-          [theme.media.sm]: {
-            display: 'none'
-          }
-        }
-      : null
-)
+const instructionCard = {
+  id: 'instructions',
+  color: 17,
+  front: <Front/>,
+  back: <Back/>
+}
 
 class Play extends React.Component {
   state = {
@@ -194,6 +191,20 @@ class Play extends React.Component {
               />
             )
           })}
+          {
+            preferTouch &&
+            <DraggableCard
+              active={this.state.activeIndex === 0}
+              card={instructionCard}
+              onExited={()=>{}}
+              shouldRender={
+                0 > this.state.activeIndex - 3 &&
+                0 < this.state.activeIndex + 3
+              }
+              inStack={0 >= this.state.activeIndex}
+              offset={this.state.activeIndex}
+            />
+          }
         </CardsWrapper>
         <FOB
           cssFunction={theme => ({
