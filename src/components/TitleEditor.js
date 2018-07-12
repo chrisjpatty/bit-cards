@@ -85,6 +85,10 @@ const TitleInput = styled('input')(
     },
     '&:focus': {
       color: theme.gray.extraDark
+    },
+    [theme.media.sm]: {
+      fontSize: 38,
+      paddingRight: 0
     }
   })
 )

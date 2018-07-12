@@ -19,8 +19,8 @@ const ORDERED_COLORS = [
   {type: 'color', id: 14, color: "#FFCA28"},
   {type: 'color', id: 15, color: "#FFA726"},
   {type: 'color', id: 16, color: "#FF7043"},
-  {type: 'color', id: 17, color: "#8D6E63"},
   {type: 'color', id: 18, color: "#78909C"},
+  {type: 'color', id: 17, color: "#ffffff", outline: true},
 ]
 
 export const COLORS = ORDERED_COLORS.reduce((obj, c) => ({...obj, [c.id]: c}), {})
@@ -122,10 +122,11 @@ class ColorButton extends React.Component{
     this.props.onSelect(this.props.id)
   }
   render(){
-    const { color } = this.props;
+    const { color, outline } = this.props;
     return(
       <StyledButton onClick={this.selectColor} style={{
-        background: color
+        background: color,
+        border: outline ? '1px solid rgb(199, 199, 199)' : ''
       }} />
     )
   }

@@ -481,6 +481,27 @@ axobject-query@^0.1.0:
   dependencies:
     ast-types-flow "0.0.7"
 
+babel-cli@^6.18.0:
+  version "6.26.0"
+  resolved "https://registry.yarnpkg.com/babel-cli/-/babel-cli-6.26.0.tgz#502ab54874d7db88ad00b887a06383ce03d002f1"
+  dependencies:
+    babel-core "^6.26.0"
+    babel-polyfill "^6.26.0"
+    babel-register "^6.26.0"
+    babel-runtime "^6.26.0"
+    commander "^2.11.0"
+    convert-source-map "^1.5.0"
+    fs-readdir-recursive "^1.0.0"
+    glob "^7.1.2"
+    lodash "^4.17.4"
+    output-file-sync "^1.1.2"
+    path-is-absolute "^1.0.1"
+    slash "^1.0.0"
+    source-map "^0.5.6"
+    v8flags "^2.1.1"
+  optionalDependencies:
+    chokidar "^1.6.1"
+
 babel-code-frame@6.26.0, babel-code-frame@^6.11.0, babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"
@@ -1008,6 +1029,14 @@ babel-plugin-transform-strict-mode@^6.24.1:
     babel-runtime "^6.22.0"
     babel-types "^6.24.1"
 
+babel-polyfill@^6.26.0:
+  version "6.26.0"
+  resolved "https://registry.yarnpkg.com/babel-polyfill/-/babel-polyfill-6.26.0.tgz#379937abc67d7895970adc621f284cd966cf2153"
+  dependencies:
+    babel-runtime "^6.26.0"
+    core-js "^2.5.0"
+    regenerator-runtime "^0.10.5"
+
 babel-preset-env@1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-1.6.1.tgz#a18b564cc9b9afdf4aae57ae3c1b0d99188e6f48"
@@ -1509,7 +1538,7 @@ chardet@^0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
 
-chokidar@^1.6.0:
+chokidar@^1.6.0, chokidar@^1.6.1:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
   dependencies:
@@ -1873,6 +1902,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+create-react-class@^15.6.0:
+  version "15.6.3"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 cross-spawn@5.1.0, cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -2151,11 +2188,24 @@ destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
 
+detect-hover@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/detect-hover/-/detect-hover-1.0.2.tgz#589fb0b469220897a9eee3fa36a917e1eda37a21"
+
 detect-indent@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-4.0.0.tgz#f76d064352cdf43a1cb6ce619c4ee3a9475de208"
   dependencies:
     repeating "^2.0.0"
+
+detect-it@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/detect-it/-/detect-it-3.0.5.tgz#816396c0fe12b11af08299a7c2b8381e58d15175"
+  dependencies:
+    detect-hover "^1.0.2"
+    detect-passive-events "^1.0.4"
+    detect-pointer "^1.0.2"
+    detect-touch-events "^2.0.1"
 
 detect-libc@^1.0.2:
   version "1.0.3"
@@ -2165,12 +2215,24 @@ detect-node@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
 
+detect-passive-events@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/detect-passive-events/-/detect-passive-events-1.0.4.tgz#6ed477e6e5bceb79079735dcd357789d37f9a91a"
+
+detect-pointer@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/detect-pointer/-/detect-pointer-1.0.2.tgz#1e0e4e261dab45055c50c74fb5a4ff09ceb18fbd"
+
 detect-port-alt@1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/detect-port-alt/-/detect-port-alt-1.1.6.tgz#24707deabe932d4a3cf621302027c2b266568275"
   dependencies:
     address "^1.0.1"
     debug "^2.6.0"
+
+detect-touch-events@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/detect-touch-events/-/detect-touch-events-2.0.1.tgz#365833cf0c5c40c4090a08096b8a688db00fa337"
 
 diff@^3.2.0:
   version "3.5.0"
@@ -2845,7 +2907,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.16:
+fbjs@^0.8.16, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -3039,6 +3101,10 @@ fs-minipass@^1.2.5:
   dependencies:
     minipass "^2.2.1"
 
+fs-readdir-recursive@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/fs-readdir-recursive/-/fs-readdir-recursive-1.1.0.tgz#e32fc030a2ccee44a6b5371308da54be0b397d27"
+
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
@@ -3193,7 +3259,7 @@ got@^6.7.1:
     unzip-response "^2.0.1"
     url-parse-lax "^1.0.0"
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
+graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -3206,6 +3272,10 @@ gzip-size@3.0.0:
   resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-3.0.0.tgz#546188e9bdc337f673772f81660464b389dce520"
   dependencies:
     duplexer "^0.1.1"
+
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
 
 handle-thing@^1.2.5:
   version "1.2.5"
@@ -5114,6 +5184,14 @@ osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+output-file-sync@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/output-file-sync/-/output-file-sync-1.1.2.tgz#d0a33eefe61a205facb90092e826598d5245ce76"
+  dependencies:
+    graceful-fs "^4.1.4"
+    mkdirp "^0.5.1"
+    object-assign "^4.1.0"
+
 p-cancelable@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-0.5.0.tgz#65b8dfbcacf27983421ee4c044ebf5e35816c7c8"
@@ -5825,6 +5903,15 @@ react-dev-utils@^5.0.1:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
+react-dom@^15.4.2:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.2.tgz#41cfadf693b757faf2708443a1d1fd5a02bef730"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+    prop-types "^15.5.10"
+
 react-dom@^16.4.1:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.1.tgz#7f8b0223b3a5fbe205116c56deb85de32685dad6"
@@ -5945,6 +6032,25 @@ react-scripts@1.1.4:
     whatwg-fetch "2.0.3"
   optionalDependencies:
     fsevents "^1.1.3"
+
+react-swipe-card@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/react-swipe-card/-/react-swipe-card-0.1.4.tgz#4361c5a4baf0ee1bf00de7ce26b93bd7bc10db3f"
+  dependencies:
+    babel-cli "^6.18.0"
+    hammerjs "^2.0.8"
+    react "^15.4.2"
+    react-dom "^15.4.2"
+
+react@^15.4.2:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
+  dependencies:
+    create-react-class "^15.6.0"
+    fbjs "^0.8.9"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+    prop-types "^15.5.10"
 
 react@^16.0.0, react@^16.4.1:
   version "16.4.1"
@@ -6067,6 +6173,10 @@ redux@^4.0.0:
 regenerate@^1.2.1:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
+
+regenerator-runtime@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
 
 regenerator-runtime@^0.11.0:
   version "0.11.1"
@@ -7166,6 +7276,10 @@ use@^3.1.0:
   dependencies:
     kind-of "^6.0.2"
 
+user-home@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/user-home/-/user-home-1.1.1.tgz#2b5be23a32b63a7c9deb8d0f28d485724a3df190"
+
 util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
@@ -7201,6 +7315,12 @@ uuid@^2.0.2:
 uuid@^3.1.0:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
+
+v8flags@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-2.1.1.tgz#aab1a1fa30d45f88dd321148875ac02c0b55e5b4"
+  dependencies:
+    user-home "^1.1.1"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.3"

@@ -1,4 +1,5 @@
 import { createStore, combineReducers } from 'redux'
+import detectIt from 'detect-it'
 
 const initialState = {
   value: {
@@ -26,7 +27,9 @@ const initialState = {
     ]
   },
   deletedCard: null,
-  historyIndex: 0
+  historyIndex: 0,
+  hasTouch: detectIt.hasTouch,
+  primaryInput: detectIt.primaryInput
 }
 
 const AppReducer = (state=initialState, action) => {

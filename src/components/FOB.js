@@ -32,6 +32,10 @@ const ButtonWrapper = styled('button')(
     },
     '&:focus': {
       background: theme.success.light
+    },
+    [theme.media.sm]: {
+      right: 20,
+      bottom: 20
     }
   }),
   ({ cssFunction, theme }) =>

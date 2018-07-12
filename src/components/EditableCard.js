@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'react-emotion'
 import { css } from 'emotion'
+import { withTheme } from 'emotion-theming'
 import { COLORS, ColorPicker } from './ColorPicker'
 import RoundButton from './RoundButton'
 // import { css } from 'emotion'
@@ -15,7 +16,15 @@ const Wrapper = styled('div')({
   '&:last-child': {
     marginBottom: 0
   }
-})
+}, ({theme}) => ({
+  [theme.media.sm]: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: '5vw',
+    paddingBottom: '5vw',
+    borderBottom: `2px solid ${theme.gray.extraExtraLight}`
+  }
+}))
 
 class EditableCard extends React.Component {
   setValue = (key, value) => {
@@ -46,9 +55,7 @@ class EditableCard extends React.Component {
           onColorChange={color => {
             this.setValue('color', color)
           }}
-          onRequestDelete={this.deleteCard}
           label="FRONT"
-          deleteButton
           left
         />
         {doubleSided && (
@@ -62,6 +69,8 @@ class EditableCard extends React.Component {
             onColorChange={color => {
               this.setValue('color', color)
             }}
+            onRequestDelete={this.deleteCard}
+            deleteButton
             label="BACK"
             right
           />
@@ -100,7 +109,14 @@ const StyledTextArea = styled('textarea')(
     }
   },
   ({ theme }) => ({
-    border: `1px solid ${theme.gray.extraExtraLight}`
+    border: `1px solid ${theme.gray.extraExtraLight}`,
+    [theme.media.sm]: {
+      width: '90vw',
+      height: '75vw',
+      borderRadius: 5,
+      fontSize: '2rem',
+      margin: 0
+    }
   }),
   ({ right, theme }) =>
     right
@@ -133,7 +149,12 @@ const CardLabel = styled('div')(
     // transform: 'rotate(-90deg)'
   },
   ({ theme }) => ({
-    color: theme.gray.extraLight
+    color: theme.gray.extraLight,
+    [theme.media.sm]: {
+      left: '2vw',
+      top: '2vw',
+      fontSize: 12
+    }
   })
 )
 
@@ -153,7 +174,8 @@ class EditableCardSide extends React.Component {
       label,
       left,
       right,
-      deleteButton
+      deleteButton,
+      theme: {media: {sm}}
     } = this.props
     return (
       <SideWrapper>
@@ -175,7 +197,11 @@ class EditableCardSide extends React.Component {
             className={css({
               position: 'absolute',
               left: '2vw',
-              bottom: '2vw'
+              bottom: '2vw',
+              [sm]: {
+                left: '3vw',
+                bottom: '5vw'
+              }
             })}
             onClick={onRequestDelete}
           >
@@ -186,12 +212,18 @@ class EditableCardSide extends React.Component {
     )
   }
 }
+EditableCardSide = withTheme(EditableCardSide)
 
 const ButtonWrapper = styled('div')({
   position: 'absolute',
   right: '2vw',
   bottom: '2vw'
-})
+}, ({theme}) => ({
+  [theme.media.sm]: {
+    right: '3vw',
+    bottom: '3vw'
+  }
+}))
 
 const ColorButton = styled('button')({
   width: 50,

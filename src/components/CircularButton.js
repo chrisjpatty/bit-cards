@@ -28,5 +28,15 @@ export default styled('button')({
   },
   '&:focus': {
     color: theme.gray.light
+  },
+  '&:disabled': {
+    background: theme.gray.extraLight,
+    color: theme.gray.light,
+    cursor: 'default',
+    '&:hover': {
+      transform: 'scale(.95)',
+      boxShadow: theme.shadows.low,
+      color: theme.gray.light
+    }
   }
 }))
