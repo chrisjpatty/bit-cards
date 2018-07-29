@@ -115,7 +115,7 @@ export default class ActiveCard extends React.Component {
         Math.abs(startX - touchX),
         Math.abs(startY - touchY)
       )
-      const minimumDistance = this.state.pWidth / 4;
+      const minimumDistance = this.state.pWidth / 2.5;
       const traveledMinimumDistance = distanceTraveled > minimumDistance;
       if (traveledMinimumDistance || exceedsMinimumVelocity) {
         exited = true;
