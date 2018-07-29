@@ -13,14 +13,34 @@ export default class ActiveCard extends React.Component {
     pWidth: 0,
     pHeight: 0,
     dragging: false,
-    draggedLeft: false,
-    draggedRight: false,
-    activeSide: 'front'
+    velocities: [],
+    activeSide: 'front',
+    exited: false
   }
   flip = () => {
     this.setState(state => ({
       activeSide: state.activeSide === 'front' ? 'back' : 'front'
     }))
+  }
+  getOffscreenCoordinates = ({xDistance, yDistance, pWidth, pHeight}) => {
+    let offScreenX, offScreenY;
+    const ratio = Math.abs(xDistance) / Math.abs(yDistance);
+    if(ratio > .5){
+      if(xDistance < 0){
+        offScreenX = (pWidth * 1.3) * -1
+      }else{
+        offScreenX = (pWidth * 1.3)
+      }
+      offScreenY = (yDistance / xDistance) * offScreenX
+    }else{
+      if(yDistance < 0){
+        offScreenY = pHeight * -1
+      }else{
+        offScreenY = pHeight
+      }
+      offScreenX = (xDistance / yDistance) * offScreenY
+    }
+    return {offScreenX, offScreenY}
   }
   startDrag = e => {
     // e.preventDefault()
@@ -38,44 +58,43 @@ export default class ActiveCard extends React.Component {
         offsetY,
         x: (pWidth / 2 - touch.clientX + offsetX) * -1,
         y: (pHeight / 2 - touch.clientY + offsetY) * -1,
+        velocities: [],
         pWidth,
         pHeight,
-        leftThreshold: pWidth / 5,
-        rightThreshold: pWidth - pWidth / 5,
-        startedDragging: true
+        startedDragging: true,
+        exited: false
       }
     })
   }
   drag = e => {
     // e.preventDefault()
-    const touch = e.touches[0]
-    const distanceTraveled = Math.abs(this.state.startX - touch.clientX)
-    const draggedLeft =
-      touch.clientX < this.state.leftThreshold &&
-      distanceTraveled > this.state.leftThreshold
-    const draggedRight =
-      touch.clientX > this.state.rightThreshold &&
-      distanceTraveled > this.state.leftThreshold
+    const touch = e.touches[0];
     this.setState(
       ({
         pWidth,
         pHeight,
+        x,
+        y,
         offsetX,
         offsetY,
-        leftThreshold,
-        rightThreshold,
         dragging,
-        startedDragging
+        startedDragging,
+        velocities
       }) => {
-        const x = (pWidth / 2 - touch.clientX + offsetX) * -1
-        const y = (pHeight / 2 - touch.clientY + offsetY) * -1
+        const nextX = (pWidth / 2 - touch.clientX + offsetX) * -1
+        const nextY = (pHeight / 2 - touch.clientY + offsetY) * -1
+        const velocity = Math.hypot(
+          Math.abs(x - nextX),
+          Math.abs(y - nextY)
+        )
         return {
-          x,
-          y,
+          x: nextX,
+          y: nextY,
+          touchX: touch.clientX,
+          touchY: touch.clientY,
+          velocities: [...velocities.slice(0, 5), velocity],
           startedDragging: false,
-          dragging: true,
-          draggedLeft,
-          draggedRight
+          dragging: true
         }
       }
     )
@@ -87,82 +106,101 @@ export default class ActiveCard extends React.Component {
         this.flip()
       }
     } else {
-      if (this.state.draggedLeft || this.state.draggedRight) {
+      let exited = false;
+      const { startX, startY, touchX, touchY, pWidth, pHeight, velocities } = this.state;
+      const minimumVelocity = 10;
+      const averageVelocity = velocities.reduce((av, v)=>av+v, 0) / velocities.length
+      const exceedsMinimumVelocity = averageVelocity > minimumVelocity;
+      const distanceTraveled = Math.hypot(
+        Math.abs(startX - touchX),
+        Math.abs(startY - touchY)
+      )
+      const minimumDistance = this.state.pWidth / 4;
+      const traveledMinimumDistance = distanceTraveled > minimumDistance;
+      if (traveledMinimumDistance || exceedsMinimumVelocity) {
+        exited = true;
         this.props.onExited()
       }
+      const { offScreenX, offScreenY } = this.getOffscreenCoordinates({
+        xDistance: touchX - startX,
+        yDistance: touchY - startY,
+        pWidth,
+        pHeight
+      })
       this.setState({
         dragging: false,
-        startedDragging: false
+        startedDragging: false,
+        exited,
+        offScreenX,
+        offScreenY
       })
     }
   }
   render() {
     const { card, offset, shouldRender, active, flippable } = this.props
     return shouldRender ? (
-      <Motion
-        defaultStyle={{
-          x: 0,
-          y: 0 - 10 * (offset - 1),
-          rotate: 0,
-          scale: 1 - 0.02 * (offset)
-        }}
-        style={{
-          x: spring(
-            this.state.dragging
-              ? this.state.x
-              : this.state.draggedLeft
-                ? this.state.pWidth * -2
-                : this.state.draggedRight
-                  ? this.state.pWidth * 2
-                  : 0
-          ),
-          y: spring(this.state.dragging ? this.state.y : 0 - 10 * offset),
-          rotate: spring(this.state.activeSide === 'front' ? 0 : 180),
-          scale: spring(1 - 0.02 * (offset + 1))
-        }}
-      >
-        {({ x, y, rotate, scale }) => (
-          <Positioner
-            style={{
-              transform: `translate(${
-                this.state.dragging ? this.state.x : x
-              }px, ${this.state.dragging ? this.state.y : y}px) scale(${scale})`
-            }}
-          >
-            <Perspective>
-              <Flipper
-                style={{
-                  transform: `rotateY(${rotate}deg)`
-                }}
-              >
-                <CardWrapper
-                  innerRef={r => {
-                    this.card = r
+      <React.Fragment>
+        <Motion
+          defaultStyle={{
+            x: 0,
+            y: 0 - 10 * (offset - 1),
+            rotate: 0,
+            scale: 1 - 0.02 * (offset)
+          }}
+          style={{
+            x: spring(
+              this.state.dragging
+                ? this.state.x
+                : this.state.exited ? this.state.offScreenX : 0
+            ),
+            y: spring(this.state.dragging ? this.state.y : this.state.exited ? this.state.offScreenY : 0 - 10 * offset),
+            rotate: spring(this.state.activeSide === 'front' ? 0 : 180),
+            scale: spring(1 - 0.02 * (offset + 1))
+          }}
+        >
+          {({ x, y, rotate, scale }) => (
+            <Positioner
+              style={{
+                transform: `translate(${
+                  this.state.dragging ? this.state.x : x
+                }px, ${this.state.dragging ? this.state.y : y}px) scale(${scale})`
+              }}
+            >
+              <Perspective>
+                <Flipper
+                  style={{
+                    transform: `rotateY(${rotate}deg)`
                   }}
-                  onTouchStart={active ? this.startDrag : noop}
-                  onTouchEnd={active ? this.stopDrag : noop}
-                  onTouchMove={active ? this.drag : noop}
                 >
-                  {card.front}
-                </CardWrapper>
-                {
-                  flippable &&
                   <CardWrapper
-                    style={{
-                      transform: 'rotateY(180deg)'
+                    innerRef={r => {
+                      this.card = r
                     }}
                     onTouchStart={active ? this.startDrag : noop}
                     onTouchEnd={active ? this.stopDrag : noop}
                     onTouchMove={active ? this.drag : noop}
                   >
-                    {card.back}
+                    {card.front}
                   </CardWrapper>
-                }
-              </Flipper>
-            </Perspective>
-          </Positioner>
-        )}
-      </Motion>
+                  {
+                    flippable &&
+                    <CardWrapper
+                      style={{
+                        transform: 'rotateY(180deg)'
+                      }}
+                      onTouchStart={active ? this.startDrag : noop}
+                      onTouchEnd={active ? this.stopDrag : noop}
+                      onTouchMove={active ? this.drag : noop}
+                    >
+                      {card.back}
+                    </CardWrapper>
+                  }
+                </Flipper>
+              </Perspective>
+            </Positioner>
+          )}
+        </Motion>
+      </React.Fragment>
     ) : null
   }
 }
