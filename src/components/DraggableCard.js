@@ -4,6 +4,8 @@ import { Motion, spring } from 'react-motion'
 
 const noop = () => {}
 
+let gx, gy, gnx, gny;
+
 export default class ActiveCard extends React.Component {
   state = {
     startX: 0,
@@ -51,6 +53,8 @@ export default class ActiveCard extends React.Component {
     this.setState(({ cWidth, cHeight }) => {
       const offsetX = (pWidth / 2 - touch.clientX) * -1
       const offsetY = (pHeight / 2 - touch.clientY) * -1
+      gx = (pWidth / 2 - touch.clientX + offsetX) * -1;
+      gy = (pHeight / 2 - touch.clientY + offsetY) * -1;
       return {
         startX: touch.clientX,
         startY: touch.clientY,
@@ -64,7 +68,23 @@ export default class ActiveCard extends React.Component {
         startedDragging: true,
         exited: false
       }
+    }, () => {
+      window.requestAnimationFrame(this.recordVelocity)
     })
+  }
+  recordVelocity = () => {
+    const velocity = Math.hypot(
+      Math.abs(gx - gnx),
+      Math.abs(gy - gny)
+    )
+    if(!Number.isNaN(velocity)){
+      this.setState(state => ({
+        velocities: [...state.velocities.slice(0,3), velocity]
+      }))
+    }
+    if (this.state.startedDragging || this.state.dragging) {
+      window.requestAnimationFrame(this.recordVelocity);
+    }
   }
   drag = e => {
     // e.preventDefault()
@@ -79,20 +99,18 @@ export default class ActiveCard extends React.Component {
         offsetY,
         dragging,
         startedDragging,
-        velocities
       }) => {
         const nextX = (pWidth / 2 - touch.clientX + offsetX) * -1
         const nextY = (pHeight / 2 - touch.clientY + offsetY) * -1
-        const velocity = Math.hypot(
-          Math.abs(x - nextX),
-          Math.abs(y - nextY)
-        )
+        gx = x;
+        gy = y;
+        gnx = nextX;
+        gny = nextY
         return {
           x: nextX,
           y: nextY,
           touchX: touch.clientX,
           touchY: touch.clientY,
-          velocities: [...velocities.slice(0, 5), velocity],
           startedDragging: false,
           dragging: true
         }
@@ -108,7 +126,7 @@ export default class ActiveCard extends React.Component {
     } else {
       let exited = false;
       const { startX, startY, touchX, touchY, pWidth, pHeight, velocities } = this.state;
-      const minimumVelocity = 10;
+      const minimumVelocity = 30;
       const averageVelocity = velocities.reduce((av, v)=>av+v, 0) / velocities.length
       const exceedsMinimumVelocity = averageVelocity > minimumVelocity;
       const distanceTraveled = Math.hypot(
@@ -117,6 +135,7 @@ export default class ActiveCard extends React.Component {
       )
       const minimumDistance = this.state.pWidth / 2.5;
       const traveledMinimumDistance = distanceTraveled > minimumDistance;
+      console.log(distanceTraveled, minimumDistance, averageVelocity);
       if (traveledMinimumDistance || exceedsMinimumVelocity) {
         exited = true;
         this.props.onExited()
