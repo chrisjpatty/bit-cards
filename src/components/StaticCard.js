@@ -2,6 +2,10 @@ import React from 'react'
 import styled from 'react-emotion'
 import { Motion, spring } from 'react-motion'
 import { CardWrapper, Positioner, Perspective, Flipper } from './DraggableCard'
+import { css } from 'emotion'
+// import Markdown from './Markdown'
+
+const scrollableCSS = css({overflow: 'auto'})
 
 export default class StaticCard extends React.Component {
   state = {
@@ -31,6 +35,8 @@ export default class StaticCard extends React.Component {
   }
   render() {
     const { card, offset, shouldRender, inStack } = this.props
+    const cardFront = card.ftype === 'i' ? <CardImg src={card.front} /> : card.front
+    const cardBack = card.btype === 'i' ? <CardImg src={card.back} /> : card.back
     return shouldRender ? (
       <Motion
         defaultStyle={{
@@ -56,15 +62,17 @@ export default class StaticCard extends React.Component {
               <Flipper style={{
                 transform: `rotateY(${rotate}deg)`
               }}>
-                <CardWrapper>
-                  {card.front}
+                <CardWrapper isImage={card.ftype === 'i'} className={scrollableCSS}>
+                  {cardFront}
                 </CardWrapper>
                 <CardWrapper
+                   isImage={card.btype === 'i'}
+                  className={scrollableCSS}
                   style={{
                     transform: 'rotateY(180deg)'
                   }}
                 >
-                  {card.back}
+                  {cardBack}
                 </CardWrapper>
               </Flipper>
             </Perspective>
@@ -72,5 +80,27 @@ export default class StaticCard extends React.Component {
         )}
       </Motion>
     ) : null
+  }
+}
+
+const CardImage = styled('img')({
+  maxWidth: '50vw',
+  maxHeight: '45vh',
+  borderRadius: 4,
+  display: 'block',
+  margin: 'auto'
+}, ({theme}) => ({
+  [theme.media.sm]: {
+    maxWidth: '88vw',
+    maxHeight: '55vh'
+  }
+}))
+
+export class CardImg extends React.Component{
+  render(){
+    const { src } = this.props;
+    return(
+      <CardImage src={src} alt='' />
+    )
   }
 }

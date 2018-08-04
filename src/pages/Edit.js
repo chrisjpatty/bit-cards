@@ -13,7 +13,9 @@ import { PlayIcon } from '../Icons'
 import Toast from '../components/Toast'
 import RoundButton from '../components/RoundButton'
 
-const cardTemplate = {
+export const cardTemplate = {
+  ftype: 't',
+  btype: 't',
   front: '',
   back: '',
   color: 1

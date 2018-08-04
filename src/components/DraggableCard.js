@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'react-emotion'
 import { Motion, spring } from 'react-motion'
+import { getFontSize } from '../utilities'
+import { CardImg } from './StaticCard'
 
 const noop = () => {}
 
-let gx, gy, gnx, gny;
+let gx, gy, gnx, gny
 
 export default class ActiveCard extends React.Component {
   state = {
@@ -24,25 +26,25 @@ export default class ActiveCard extends React.Component {
       activeSide: state.activeSide === 'front' ? 'back' : 'front'
     }))
   }
-  getOffscreenCoordinates = ({xDistance, yDistance, pWidth, pHeight}) => {
-    let offScreenX, offScreenY;
-    const ratio = Math.abs(xDistance) / Math.abs(yDistance);
-    if(ratio > .5){
-      if(xDistance < 0){
-        offScreenX = (pWidth * 1.3) * -1
-      }else{
-        offScreenX = (pWidth * 1.3)
+  getOffscreenCoordinates = ({ xDistance, yDistance, pWidth, pHeight }) => {
+    let offScreenX, offScreenY
+    const ratio = Math.abs(xDistance) / Math.abs(yDistance)
+    if (ratio > 0.5) {
+      if (xDistance < 0) {
+        offScreenX = pWidth * 1.3 * -1
+      } else {
+        offScreenX = pWidth * 1.3
       }
       offScreenY = (yDistance / xDistance) * offScreenX
-    }else{
-      if(yDistance < 0){
+    } else {
+      if (yDistance < 0) {
         offScreenY = pHeight * -1
-      }else{
+      } else {
         offScreenY = pHeight
       }
       offScreenX = (xDistance / yDistance) * offScreenY
     }
-    return {offScreenX, offScreenY}
+    return { offScreenX, offScreenY }
   }
   startDrag = e => {
     // e.preventDefault()
@@ -50,45 +52,45 @@ export default class ActiveCard extends React.Component {
     const touch = e.touches[0]
     const pWidth = window.innerWidth
     const pHeight = window.innerHeight
-    this.setState(({ cWidth, cHeight }) => {
-      const offsetX = (pWidth / 2 - touch.clientX) * -1
-      const offsetY = (pHeight / 2 - touch.clientY) * -1
-      gx = (pWidth / 2 - touch.clientX + offsetX) * -1;
-      gy = (pHeight / 2 - touch.clientY + offsetY) * -1;
-      return {
-        startX: touch.clientX,
-        startY: touch.clientY,
-        offsetX,
-        offsetY,
-        x: (pWidth / 2 - touch.clientX + offsetX) * -1,
-        y: (pHeight / 2 - touch.clientY + offsetY) * -1,
-        velocities: [],
-        pWidth,
-        pHeight,
-        startedDragging: true,
-        exited: false
+    this.setState(
+      ({ cWidth, cHeight }) => {
+        const offsetX = (pWidth / 2 - touch.clientX) * -1
+        const offsetY = (pHeight / 2 - touch.clientY) * -1
+        gx = (pWidth / 2 - touch.clientX + offsetX) * -1
+        gy = (pHeight / 2 - touch.clientY + offsetY) * -1
+        return {
+          startX: touch.clientX,
+          startY: touch.clientY,
+          offsetX,
+          offsetY,
+          x: (pWidth / 2 - touch.clientX + offsetX) * -1,
+          y: (pHeight / 2 - touch.clientY + offsetY) * -1,
+          velocities: [],
+          pWidth,
+          pHeight,
+          startedDragging: true,
+          exited: false
+        }
+      },
+      () => {
+        window.requestAnimationFrame(this.recordVelocity)
       }
-    }, () => {
-      window.requestAnimationFrame(this.recordVelocity)
-    })
+    )
   }
   recordVelocity = () => {
-    const velocity = Math.hypot(
-      Math.abs(gx - gnx),
-      Math.abs(gy - gny)
-    )
-    if(!Number.isNaN(velocity)){
+    const velocity = Math.hypot(Math.abs(gx - gnx), Math.abs(gy - gny))
+    if (!Number.isNaN(velocity)) {
       this.setState(state => ({
-        velocities: [...state.velocities.slice(0,3), velocity]
+        velocities: [...state.velocities.slice(0, 3), velocity]
       }))
     }
     if (this.state.startedDragging || this.state.dragging) {
-      window.requestAnimationFrame(this.recordVelocity);
+      window.requestAnimationFrame(this.recordVelocity)
     }
   }
   drag = e => {
     // e.preventDefault()
-    const touch = e.touches[0];
+    const touch = e.touches[0]
     this.setState(
       ({
         pWidth,
@@ -98,13 +100,13 @@ export default class ActiveCard extends React.Component {
         offsetX,
         offsetY,
         dragging,
-        startedDragging,
+        startedDragging
       }) => {
         const nextX = (pWidth / 2 - touch.clientX + offsetX) * -1
         const nextY = (pHeight / 2 - touch.clientY + offsetY) * -1
-        gx = x;
-        gy = y;
-        gnx = nextX;
+        gx = x
+        gy = y
+        gnx = nextX
         gny = nextY
         return {
           x: nextX,
@@ -120,24 +122,32 @@ export default class ActiveCard extends React.Component {
   stopDrag = e => {
     // e.preventDefault()
     if (!this.state.dragging) {
-      if(this.props.flippable){
+      if (this.props.flippable) {
         this.flip()
       }
     } else {
-      let exited = false;
-      const { startX, startY, touchX, touchY, pWidth, pHeight, velocities } = this.state;
-      const minimumVelocity = 30;
-      const averageVelocity = velocities.reduce((av, v)=>av+v, 0) / velocities.length
-      const exceedsMinimumVelocity = averageVelocity > minimumVelocity;
+      let exited = false
+      const {
+        startX,
+        startY,
+        touchX,
+        touchY,
+        pWidth,
+        pHeight,
+        velocities
+      } = this.state
+      const minimumVelocity = 30
+      const averageVelocity =
+        velocities.reduce((av, v) => av + v, 0) / velocities.length
+      const exceedsMinimumVelocity = averageVelocity > minimumVelocity
       const distanceTraveled = Math.hypot(
         Math.abs(startX - touchX),
         Math.abs(startY - touchY)
       )
-      const minimumDistance = this.state.pWidth / 2.5;
-      const traveledMinimumDistance = distanceTraveled > minimumDistance;
-      console.log(distanceTraveled, minimumDistance, averageVelocity);
+      const minimumDistance = this.state.pWidth / 2.5
+      const traveledMinimumDistance = distanceTraveled > minimumDistance
       if (traveledMinimumDistance || exceedsMinimumVelocity) {
-        exited = true;
+        exited = true
         this.props.onExited()
       }
       const { offScreenX, offScreenY } = this.getOffscreenCoordinates({
@@ -157,6 +167,8 @@ export default class ActiveCard extends React.Component {
   }
   render() {
     const { card, offset, shouldRender, active, flippable } = this.props
+    const cardFront = card.ftype === 'i' ? <CardImg src={card.front}/> : card.front
+    const cardBack = card.back === 'string' ? <CardImg src={card.back}/> : card.back
     return shouldRender ? (
       <React.Fragment>
         <Motion
@@ -164,15 +176,23 @@ export default class ActiveCard extends React.Component {
             x: 0,
             y: 0 - 10 * (offset - 1),
             rotate: 0,
-            scale: 1 - 0.02 * (offset)
+            scale: 1 - 0.02 * offset
           }}
           style={{
             x: spring(
               this.state.dragging
                 ? this.state.x
-                : this.state.exited ? this.state.offScreenX : 0
+                : this.state.exited
+                  ? this.state.offScreenX
+                  : 0
             ),
-            y: spring(this.state.dragging ? this.state.y : this.state.exited ? this.state.offScreenY : 0 - 10 * offset),
+            y: spring(
+              this.state.dragging
+                ? this.state.y
+                : this.state.exited
+                  ? this.state.offScreenY
+                  : 0 - 10 * offset
+            ),
             rotate: spring(this.state.activeSide === 'front' ? 0 : 180),
             scale: spring(1 - 0.02 * (offset + 1))
           }}
@@ -182,7 +202,9 @@ export default class ActiveCard extends React.Component {
               style={{
                 transform: `translate(${
                   this.state.dragging ? this.state.x : x
-                }px, ${this.state.dragging ? this.state.y : y}px) scale(${scale})`
+                }px, ${
+                  this.state.dragging ? this.state.y : y
+                }px) scale(${scale})`
               }}
             >
               <Perspective>
@@ -192,28 +214,33 @@ export default class ActiveCard extends React.Component {
                   }}
                 >
                   <CardWrapper
+                    isImage={card.ftype === 'i'}
                     innerRef={r => {
                       this.card = r
                     }}
                     onTouchStart={active ? this.startDrag : noop}
                     onTouchEnd={active ? this.stopDrag : noop}
                     onTouchMove={active ? this.drag : noop}
+                    style={{
+                      fontSize: getFontSize(card.front)
+                    }}
                   >
-                    {card.front}
+                    {cardFront}
                   </CardWrapper>
-                  {
-                    flippable &&
+                  {flippable && (
                     <CardWrapper
+                      isImage={card.ftype === 'i'}
                       style={{
-                        transform: 'rotateY(180deg)'
+                        transform: 'rotateY(180deg)',
+                        fontSize: getFontSize(card.back)
                       }}
                       onTouchStart={active ? this.startDrag : noop}
                       onTouchEnd={active ? this.stopDrag : noop}
                       onTouchMove={active ? this.drag : noop}
                     >
-                      {card.back}
+                      {cardBack}
                     </CardWrapper>
-                  }
+                  )}
                 </Flipper>
               </Perspective>
             </Positioner>
@@ -242,7 +269,21 @@ export const CardWrapper = styled('div')(
     top: '-25vh',
     textAlign: 'center',
     userSelect: 'none',
-    backfaceVisibility: 'hidden'
+    backfaceVisibility: 'hidden',
+    whiteSpace: 'pre-wrap',
+    overflow: 'hidden',
+    '& img': {
+      maxWidth: '55vw',
+      maxHeight: '45vh',
+      borderRadius: 4,
+      display: 'block',
+      margin: 'auto'
+    },
+    '& p': {
+      marginTop: '1vh',
+      marginBottom: '1vh',
+      wordBreak: 'break-word'
+    }
     // paddingBottom: 'calc(7vh + 30px)'
   },
   ({ theme }) => ({
@@ -252,9 +293,18 @@ export const CardWrapper = styled('div')(
       width: '95vw',
       height: '60vh',
       left: '-47.5vw',
-      top: '-30vh'
+      top: '-30vh',
+      '& img': {
+        maxWidth: '88vw',
+        maxHeight: '55vh'
+      }
     }
-  })
+  }),
+  ({isImage}) => (
+    isImage ? {
+      padding: 0
+    } : null
+  )
 )
 
 export const Positioner = styled('div')({

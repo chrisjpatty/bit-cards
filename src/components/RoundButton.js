@@ -30,9 +30,18 @@ const StyledButton = styled('button')({
     background: theme.gray.extraExtraLight
   },
   '&:focus': {
-    background: theme.gray.extraExtraLight
+    boxShadow: theme.shadows.mid
   }
-}))
+}), ({active, theme}) => (
+  active ? {
+    background: theme.gray.mediumLight,
+    color: '#fff',
+    '&:active': {
+      background: theme.gray.light
+    },
+  } : null
+)
+)
 
 export default class RoundButton extends React.Component{
   render(){

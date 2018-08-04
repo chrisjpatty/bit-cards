@@ -8,6 +8,8 @@ const initialState = {
     sds: 2,
     cards: [
       {
+        ftype: 't',
+        btype: 't',
         front: '',
         back: '',
         color: 1
@@ -20,6 +22,8 @@ const initialState = {
     sds: 2,
     cards: [
       {
+        ftype: 't',
+        btype: 't',
         front: '',
         back: '',
         color: 1

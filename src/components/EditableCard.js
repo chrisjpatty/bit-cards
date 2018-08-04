@@ -1,30 +1,65 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'react-emotion'
-import { css } from 'emotion'
 import { withTheme } from 'emotion-theming'
 import { COLORS, ColorPicker } from './ColorPicker'
 import RoundButton from './RoundButton'
+import { compose } from 'redux'
 // import { css } from 'emotion'
 // import ContentEditable from "react-sane-contenteditable";
 
 const Wrapper = styled('div')({
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   justifyContent: 'center',
+  alignItems: 'center',
   marginBottom: '3vw',
+  width: '100%',
   '&:last-child': {
     marginBottom: 0
   }
 }, ({theme}) => ({
+  borderBottom: `2px solid ${theme.gray.extraExtraLight}`,
   [theme.media.sm]: {
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: '5vw',
     paddingBottom: '5vw',
-    borderBottom: `2px solid ${theme.gray.extraExtraLight}`
   }
 }))
+
+const ControlsRow = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  padding: '10px 5vw',
+  maxWidth: 1000,
+  position: 'relative',
+  alignItems: 'center'
+}, ({theme}) => ({
+
+}))
+
+const CardRow = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  width: '100%',
+  maxWidth: 1000
+}, ({theme}) => ({
+  [theme.media.sm]: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  }
+}))
+
+const RightAlign = styled('div')({
+  marginLeft: 'auto',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center'
+})
 
 class EditableCard extends React.Component {
   setValue = (key, value) => {
@@ -39,50 +74,81 @@ class EditableCard extends React.Component {
   deleteCard = () => {
     this.props.deleteCard(this.props.index)
   }
+  setType = (side, value) => {
+    if(side === 'front'){
+      this.props.onChange({
+        ...this.props.card,
+        ftype: value
+      }, this.props.index)
+    }else if(side === 'back'){
+      this.props.onChange({
+        ...this.props.card,
+        btype: value
+      }, this.props.index)
+    }
+  }
   render() {
     const { card, enableColors, doubleSided } = this.props
-    const { front, back, color } = card
+    const { front, back, color, ftype, btype } = card
     // console.log(card);
     return (
       <Wrapper>
-        <EditableCardSide
-          value={front}
-          color={color}
-          noColorPicker={doubleSided ? true : !enableColors}
-          onChange={value => {
-            this.setValue('front', value)
-          }}
-          onColorChange={color => {
-            this.setValue('color', color)
-          }}
-          label="FRONT"
-          left
-        />
-        {doubleSided && (
+        <CardRow>
           <EditableCardSide
-            value={back}
+            value={front}
             color={color}
-            noColorPicker={!enableColors}
             onChange={value => {
-              this.setValue('back', value)
+              this.setValue('front', value)
             }}
-            onColorChange={color => {
-              this.setValue('color', color)
+            onTypeChange={value => {
+              this.setType('front', value)
             }}
-            onRequestDelete={this.deleteCard}
-            deleteButton
-            label="BACK"
-            right
+            label="front"
+            type={ftype}
+            left
           />
-        )}
+          {doubleSided && (
+            <EditableCardSide
+              value={back}
+              color={color}
+              type={btype}
+              onChange={value => {
+                this.setValue('back', value)
+              }}
+              onTypeChange={value => {
+                this.setType('back', value)
+              }}
+              label="back"
+              right
+            />
+          )}
+        </CardRow>
+        <ControlsRow>
+          <RoundButton
+            onClick={this.deleteCard}
+          >
+            Delete Card
+          </RoundButton>
+          <RightAlign>
+            {
+              enableColors &&
+              <ColorPickerWithButton color={color} onChange={color => {
+                this.setValue('color', color)
+              }} />
+            }
+          </RightAlign>
+        </ControlsRow>
       </Wrapper>
     )
   }
 }
-export default connect(state => ({
-  enableColors: state.app.value.clr ? true : false,
-  doubleSided: state.app.value.sds === 2
-}))(EditableCard)
+export default compose(
+  connect(state => ({
+    enableColors: state.app.value.clr ? true : false,
+    doubleSided: state.app.value.sds === 2
+  })),
+  withTheme
+)(EditableCard)
 
 const SideWrapper = styled('div')({
   position: 'relative'
@@ -99,7 +165,7 @@ const StyledTextArea = styled('textarea')(
     resize: 'none',
     borderRadius: 5,
     padding: '7%',
-    transition: 'box-shadow 300ms, transform 300ms',
+    transition: 'box-shadow 300ms, transform 300ms, font-size 500ms',
     transform: 'scale(.99)',
     textAlign: 'center',
     '&:focus': {
@@ -110,6 +176,9 @@ const StyledTextArea = styled('textarea')(
   },
   ({ theme }) => ({
     border: `1px solid ${theme.gray.extraExtraLight}`,
+    '&::placeholder': {
+      color: theme.gray.extraLight
+    },
     [theme.media.sm]: {
       width: '90vw',
       height: '75vw',
@@ -136,7 +205,31 @@ const StyledTextArea = styled('textarea')(
           borderRight: 'none',
           marginRight: 3
         }
-      : {}
+      : {},
+  ({fontModifier, theme}) => (
+    fontModifier === 'md' ? {
+      fontSize: '2.6vw',
+      [theme.media.sm]: {
+        fontSize: '1.8rem'
+      }
+    } : null
+  ),
+  ({fontModifier, theme}) => (
+    fontModifier === 'sm' ? {
+      fontSize: '2.3vw',
+      [theme.media.sm]: {
+        fontSize: '1.6rem'
+      }
+    } : null
+  ),
+  ({fontModifier, theme}) => (
+    fontModifier === 'xs' ? {
+      fontSize: '2vw',
+      [theme.media.sm]: {
+        fontSize: '1.4rem'
+      }
+    } : null
+  )
 )
 
 const CardLabel = styled('div')(
@@ -145,7 +238,8 @@ const CardLabel = styled('div')(
     fontWeight: 600,
     left: '1vw',
     top: '1vw',
-    fontSize: 10
+    fontSize: 10,
+    textTransform: 'uppercase'
     // transform: 'rotate(-90deg)'
   },
   ({ theme }) => ({
@@ -164,18 +258,27 @@ class EditableCardSide extends React.Component {
       this.props.onChange(e.target.value)
     }
   }
+  getFontModifier = string => {
+    const numBreaks = string.split(/\n/).length
+    if(string.length > 200 || numBreaks > 5){
+      return 'xs'
+    }
+    if(string.length > 150 || numBreaks > 3){
+      return 'sm'
+    }
+    if(string.length > 100){
+      return 'md'
+    }
+    return ''
+  }
   render() {
     const {
       value,
-      color,
-      onColorChange,
-      onRequestDelete,
-      noColorPicker,
       label,
       left,
       right,
-      deleteButton,
-      theme: {media: {sm}}
+      type,
+      onTypeChange
     } = this.props
     return (
       <SideWrapper>
@@ -186,44 +289,56 @@ class EditableCardSide extends React.Component {
           onChange={this.setSideContent}
           left={left}
           right={right}
+          placeholder={type === 't' ? `Lorum ipsum delorum...` : `http://imageurl...`}
+          fontModifier={this.getFontModifier(value)}
         />
-        {!noColorPicker && (
-          <ColorPickerWithButton color={color} onChange={onColorChange} />
-        )}
-        {label && <CardLabel>{label}</CardLabel>}
-        {
-          deleteButton &&
+        {label && <CardLabel>{`${label} ${type === 't' ? 'TEXT' : 'IMAGE URL'}`}</CardLabel>}
+        <CardControlsWrapper>
           <RoundButton
-            className={css({
-              position: 'absolute',
-              left: '2vw',
-              bottom: '2vw',
-              [sm]: {
-                left: '3vw',
-                bottom: '5vw'
+            active={type === 't'}
+            onClick={()=>{
+              if(type !== 't'){
+                onTypeChange('t')
               }
-            })}
-            onClick={onRequestDelete}
+            }}
           >
-            Delete
+            Text
           </RoundButton>
-        }
+          <RoundButton
+            active={type === 'i'}
+            onClick={()=>{
+              if(type !== 'i'){
+                onTypeChange('i')
+              }
+            }}
+          >
+            Image
+          </RoundButton>
+        </CardControlsWrapper>
       </SideWrapper>
     )
   }
 }
-EditableCardSide = withTheme(EditableCardSide)
 
-const ButtonWrapper = styled('div')({
+const CardControlsWrapper = styled('div')({
   position: 'absolute',
-  right: '2vw',
+  display: 'flex',
+  flexDirection: 'row',
+  left: '2vw',
   bottom: '2vw'
-}, ({theme}) => ({
+}, ({ theme }) => ({
   [theme.media.sm]: {
-    right: '3vw',
-    bottom: '3vw'
+    left: '3vw',
+    bottom: '3vw',
   }
 }))
+
+const ButtonWrapper = styled('div')({
+  // position: 'absolute',
+  position: 'relative'
+  // right: '2vw',
+  // bottom: '2vw'
+})
 
 const ColorButton = styled('button')({
   width: 50,

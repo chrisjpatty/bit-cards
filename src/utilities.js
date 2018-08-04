@@ -17,3 +17,16 @@ export const decode = value => new PCancelable((resolve, reject, onCancel) => {
   const worker = decompress(value)
   worker.then(resolve).catch(reject)
 })
+
+export const getFontSize = string => {
+  if(string.length > 300){
+    return '2.5vh'
+  }
+  if(string.length > 150){
+    return '3vh'
+  }
+  if(string.length > 30){
+    return '4vh'
+  }
+  return ''
+}

@@ -8,8 +8,8 @@ import { css } from 'emotion'
 const Wrapper = styled('div')({
   display: 'flex',
   flexDirection: 'column',
+  alignItems: 'center',
   width: '100%',
-  maxWidth: 1000,
   paddingBottom: 50
 })
 

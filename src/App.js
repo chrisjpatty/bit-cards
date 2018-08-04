@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom'
 import Edit from './pages/Edit'
 import Play from './pages/Play'
 import Header from './components/Header'
+import { cardTemplate } from './pages/Edit'
 import 'normalize.css'
 import './App.css';
 
@@ -26,6 +27,7 @@ class App extends Component {
       value = {
         ...value,
         cards: value.cards.map(card => ({
+          ...cardTemplate,
           ...card,
           id: Math.random().toString(36).substring(2, 15)
         }))
