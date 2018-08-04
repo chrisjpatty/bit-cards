@@ -319,7 +319,7 @@ const AltTextWrapper = styled('div')({
   position: 'absolute',
   left: '2vw',
   bottom: '5.8vw',
-  zIndex: 99,
+  zIndex: 8,
   display: 'flex',
   flexDirection: 'column',
   width: 'calc(100% - 4vw)'
@@ -471,7 +471,8 @@ const ColorButton = styled('button')({
 const PickerWrapper = styled('div')({
   position: 'absolute',
   bottom: 65,
-  left: 0
+  left: 0,
+  zIndex: 9
 })
 
 class ColorPickerWithButton extends React.Component {
