@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
 import { encode } from '../utilities'
 import { css } from 'emotion'
 import debounce from 'lodash/debounce'
@@ -17,6 +16,8 @@ export const cardTemplate = {
   ftype: 't',
   btype: 't',
   front: '',
+  falt: '',
+  balt: '',
   back: '',
   color: 1
 }
@@ -86,7 +87,9 @@ class Edit extends React.Component {
       cards: value.cards.map(card => ({
         ...card,
         front: card.back,
-        back: card.front
+        back: card.front,
+        ftype: card.btype,
+        btype: card.ftype
       }))
     }), {
       updateCache: (value, cache) => ({
@@ -98,13 +101,17 @@ class Edit extends React.Component {
               ...card,
               front: card.back,
               back: card.front,
+              ftype: card.btype,
+              btype: card.ftype,
               color: cachedCard.color
             }
           }else{
             return {
               ...card,
               front: card.back,
-              back: card.front
+              back: card.front,
+              ftype: card.btype,
+              btype: card.ftype
             }
           }
         })

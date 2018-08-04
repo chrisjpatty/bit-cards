@@ -33,7 +33,7 @@ const ControlsRow = styled('div')({
   flexDirection: 'row',
   width: '100%',
   padding: '10px 5vw',
-  maxWidth: 1000,
+  // maxWidth: 1000,
   position: 'relative',
   alignItems: 'center'
 }, ({theme}) => ({
@@ -74,22 +74,60 @@ class EditableCard extends React.Component {
   deleteCard = () => {
     this.props.deleteCard(this.props.index)
   }
+  swapSides = () => {
+    this.props.onChange({
+      ...this.props.card,
+      front: this.props.card.back,
+      back: this.props.card.front,
+      ftype: this.props.card.btype,
+      btype: this.props.card.ftype
+    }, this.props.index)
+  }
   setType = (side, value) => {
+    if(side === 'front'){
+      if(value === 't'){
+        this.props.onChange({
+          ...this.props.card,
+          ftype: value,
+          falt: ''
+        }, this.props.index)
+      }else{
+        this.props.onChange({
+          ...this.props.card,
+          ftype: value
+        }, this.props.index)
+      }
+    }else if(side === 'back'){
+      if(value === 't'){
+        this.props.onChange({
+          ...this.props.card,
+          btype: value,
+          balt: ''
+        }, this.props.index)
+      }else{
+        this.props.onChange({
+          ...this.props.card,
+          btype: value
+        }, this.props.index)
+      }
+    }
+  }
+  setAltText = (side, value) => {
     if(side === 'front'){
       this.props.onChange({
         ...this.props.card,
-        ftype: value
+        falt: value
       }, this.props.index)
-    }else if(side === 'back'){
+    }else{
       this.props.onChange({
         ...this.props.card,
-        btype: value
+        balt: value
       }, this.props.index)
     }
   }
   render() {
     const { card, enableColors, doubleSided } = this.props
-    const { front, back, color, ftype, btype } = card
+    const { front, back, color, ftype, btype, falt, balt } = card
     // console.log(card);
     return (
       <Wrapper>
@@ -103,6 +141,10 @@ class EditableCard extends React.Component {
             onTypeChange={value => {
               this.setType('front', value)
             }}
+            onAltTextChange={value => {
+              this.setAltText('front', value)
+            }}
+            altText={falt}
             label="front"
             type={ftype}
             left
@@ -118,24 +160,33 @@ class EditableCard extends React.Component {
               onTypeChange={value => {
                 this.setType('back', value)
               }}
+              onAltTextChange={value => {
+                this.setAltText('back', value)
+              }}
+              altText={balt}
               label="back"
               right
             />
           )}
         </CardRow>
         <ControlsRow>
-          <RoundButton
-            onClick={this.deleteCard}
-          >
-            Delete Card
-          </RoundButton>
+          {
+            enableColors &&
+            <ColorPickerWithButton color={color} onChange={color => {
+              this.setValue('color', color)
+            }} />
+          }
           <RightAlign>
-            {
-              enableColors &&
-              <ColorPickerWithButton color={color} onChange={color => {
-                this.setValue('color', color)
-              }} />
-            }
+            <RoundButton
+              onClick={this.deleteCard}
+            >
+              Delete Card
+            </RoundButton>
+            <RoundButton
+              onClick={this.swapSides}
+            >
+              Swap Sides
+            </RoundButton>
           </RightAlign>
         </ControlsRow>
       </Wrapper>
@@ -249,8 +300,50 @@ const CardLabel = styled('div')(
       top: '2vw',
       fontSize: 12
     }
-  })
+  }),
+  ({relative, theme}) => (
+    relative ? {
+      position: 'relative',
+      left: 'auto',
+      top: 'auto',
+      [theme.media.sm]: {
+        position: 'relative',
+        left: 'auto',
+        top: 'auto',
+      }
+    } : null
+  )
 )
+
+const AltTextWrapper = styled('div')({
+  position: 'absolute',
+  left: '2vw',
+  bottom: '5.8vw',
+  zIndex: 99,
+  display: 'flex',
+  flexDirection: 'column',
+  width: 'calc(100% - 4vw)'
+}, ({theme}) => ({
+  [theme.media.sm]: {
+    left: '2vw',
+    bottom: '11vw'
+  }
+}))
+
+const AltText = styled('input')({
+  borderRadius: 5,
+  height: '5vh',
+  width: '100%',
+  paddingLeft: 10,
+  paddingRight: 10,
+  outline: 'none',
+  transition: 'border-color 200ms'
+}, ({theme}) => ({
+  border: `2px solid ${theme.gray.extraExtraLight}`,
+  '&:focus': {
+    borderColor: theme.gray.extraLight
+  }
+}))
 
 class EditableCardSide extends React.Component {
   setSideContent = e => {
@@ -271,6 +364,10 @@ class EditableCardSide extends React.Component {
     }
     return ''
   }
+  setAltText = e => {
+    const value = e.target.value;
+    this.props.onAltTextChange(value)
+  }
   render() {
     const {
       value,
@@ -278,12 +375,12 @@ class EditableCardSide extends React.Component {
       left,
       right,
       type,
+      altText,
       onTypeChange
     } = this.props
     return (
       <SideWrapper>
         <StyledTextArea
-          type="text"
           value={value}
           onBlur={this.stopEditing}
           onChange={this.setSideContent}
@@ -293,6 +390,17 @@ class EditableCardSide extends React.Component {
           fontModifier={this.getFontModifier(value)}
         />
         {label && <CardLabel>{`${label} ${type === 't' ? 'TEXT' : 'IMAGE URL'}`}</CardLabel>}
+        {
+          type === 'i' &&
+          <AltTextWrapper>
+            <CardLabel relative >Alt Text</CardLabel>
+            <AltText
+              type='text'
+              value={altText}
+              onChange={this.setAltText}
+            />
+          </AltTextWrapper>
+        }
         <CardControlsWrapper>
           <RoundButton
             active={type === 't'}
@@ -363,7 +471,7 @@ const ColorButton = styled('button')({
 const PickerWrapper = styled('div')({
   position: 'absolute',
   bottom: 65,
-  right: 0
+  left: 0
 })
 
 class ColorPickerWithButton extends React.Component {

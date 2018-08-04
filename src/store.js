@@ -10,6 +10,8 @@ const initialState = {
       {
         ftype: 't',
         btype: 't',
+        falt: '',
+        balt: '',
         front: '',
         back: '',
         color: 1
@@ -24,6 +26,8 @@ const initialState = {
       {
         ftype: 't',
         btype: 't',
+        falt: '',
+        balt: '',
         front: '',
         back: '',
         color: 1

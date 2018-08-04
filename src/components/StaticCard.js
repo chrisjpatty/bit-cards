@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import { Motion, spring } from 'react-motion'
 import { CardWrapper, Positioner, Perspective, Flipper } from './DraggableCard'
+import { ImageError } from '../Icons'
 import { css } from 'emotion'
 // import Markdown from './Markdown'
 
@@ -35,8 +36,8 @@ export default class StaticCard extends React.Component {
   }
   render() {
     const { card, offset, shouldRender, inStack } = this.props
-    const cardFront = card.ftype === 'i' ? <CardImg src={card.front} /> : card.front
-    const cardBack = card.btype === 'i' ? <CardImg src={card.back} /> : card.back
+    const cardFront = card.ftype === 'i' ? <CardImg src={card.front} alt={card.falt} /> : card.front
+    const cardBack = card.btype === 'i' ? <CardImg src={card.back} alt={card.balt} /> : card.back
     return shouldRender ? (
       <Motion
         defaultStyle={{
@@ -96,11 +97,38 @@ const CardImage = styled('img')({
   }
 }))
 
+const ErrorWrapper = styled('div')({
+  height: '100%',
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  '& svg': {
+    marginBottom: '2vh',
+    height: '20vh'
+  }
+}, ({theme}) => ({
+  color: theme.gray.light
+}))
+
 export class CardImg extends React.Component{
+  state = {
+    error: false
+  }
+  setError = () => {
+    this.setState({error: true})
+  }
   render(){
-    const { src } = this.props;
+    const { src, alt } = this.props;
     return(
-      <CardImage src={src} alt='' />
+      this.state.error ?
+      <ErrorWrapper>
+        <ImageError/>
+        <span>Image not found</span>
+      </ErrorWrapper>
+      :
+      <CardImage onError={this.setError} src={src} alt={alt} />
     )
   }
 }

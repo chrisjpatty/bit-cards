@@ -167,8 +167,8 @@ export default class ActiveCard extends React.Component {
   }
   render() {
     const { card, offset, shouldRender, active, flippable } = this.props
-    const cardFront = card.ftype === 'i' ? <CardImg src={card.front}/> : card.front
-    const cardBack = card.back === 'string' ? <CardImg src={card.back}/> : card.back
+    const cardFront = card.ftype === 'i' ? <CardImg src={card.front} alt={card.falt}/> : card.front
+    const cardBack = card.btype === 'i' ? <CardImg src={card.back} alt={card.balt}/> : card.back
     return shouldRender ? (
       <React.Fragment>
         <Motion
