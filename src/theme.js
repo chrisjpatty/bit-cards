@@ -1,6 +1,7 @@
 export default {
   primary: {
-    color: "rgb(195, 233, 255)",
+    color: "rgb(41, 182, 246)",
+    dark: "rgb(30, 166, 228)",
     textOn: "#ffffff"
   },
   success: {

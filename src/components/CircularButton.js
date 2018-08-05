@@ -12,6 +12,7 @@ export default styled('button')({
   border: 'none',
   fill: 'currentColor',
   outline: 'none',
+  userSelect: 'none',
   boxShadow: '0 2px 4px 0 rgba(0,0,0,0.10)',
   '&:hover': {
     transform: 'scale(1)',

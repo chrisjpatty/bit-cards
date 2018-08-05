@@ -16,6 +16,7 @@ const StyledWrapper = styled('label')(
     outline: 'none',
     whiteSpace: 'nowrap',
     margin: '0px 5px',
+    userSelect: 'none',
     paddingLeft: 5,
     '&:first-child': {
       marginLeft: 0
@@ -33,11 +34,13 @@ const StyledWrapper = styled('label')(
     },
     '&:active': {
       background: theme.gray.extraExtraLight
-    },
-    '&:focus': {
-      background: theme.gray.extraExtraLight
     }
-  })
+  }),
+  ({theme, focused}) => (
+    focused ? {
+      boxShadow: theme.shadows.mid
+    } : null
+  )
 )
 
 const HiddenCheckbox = styled('input')({
@@ -78,6 +81,7 @@ const StyledCheckboxLabel = styled('label')(
 )
 
 export default class Checkbox extends React.Component {
+  state = {focused: false}
   fieldId = Math.random()
     .toString(36)
     .substring(2, 15)
@@ -85,13 +89,21 @@ export default class Checkbox extends React.Component {
     const checked = e.target.checked;
     this.props.onChange(checked)
   }
+  focus = () => {
+    this.setState({focused: true})
+  }
+  blur = () => {
+    this.setState({focused: false})
+  }
   render() {
     const { children, checked } = this.props
     return (
-      <StyledWrapper htmlFor={this.fieldId}>
+      <StyledWrapper focused={this.state.focused} htmlFor={this.fieldId}>
         <HiddenCheckbox
           checked={checked}
           onChange={this.onChange}
+          onFocus={this.focus}
+          onBlur={this.blur}
           id={this.fieldId}
           type="checkbox"
         />

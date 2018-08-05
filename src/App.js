@@ -64,7 +64,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header />
+        <Header location={this.props.location} />
         <Route component={Edit} path="/edit" />
         <Route component={Play} path="/play" />
       </div>

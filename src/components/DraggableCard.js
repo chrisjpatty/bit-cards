@@ -270,6 +270,7 @@ export const CardWrapper = styled('div')(
     textAlign: 'center',
     userSelect: 'none',
     backfaceVisibility: 'hidden',
+    '-webkit-backface-visibility': 'hidden',
     whiteSpace: 'pre-wrap',
     overflow: 'hidden',
     '& img': {

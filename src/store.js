@@ -42,6 +42,8 @@ const initialState = {
 
 const AppReducer = (state=initialState, action) => {
   switch(action.type){
+    case 'RESET_STATE': 
+      return {...initialState}
     case 'SET_VALUE':
       return {
         ...state,

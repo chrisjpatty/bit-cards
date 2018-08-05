@@ -1,93 +1,152 @@
 import React, { Fragment } from 'react'
 import styled from 'react-emotion'
+import { connect } from 'react-redux'
 import { css } from 'emotion'
 import { Link } from 'react-router-dom'
 import { history } from '../index'
+import RoundButton from './RoundButton'
+import LightLogo from '../img/bitcards_logo_on_dark.svg'
+import DarkLogo from '../img/bitcards_logo_on_light.svg'
+import store from '../store'
 
-const HeaderWrapper = styled('header')({
-  display: 'flex',
-  flexDirection: 'row',
-  padding: '20px 10px'
-}, ({theme}) => ({
-  [theme.media.sm]: {
-    display: 'none'
-  }
-}))
+const HeaderWrapper = styled('header')(
+  {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10
+    // padding: '20px 10px',
+  },
+  ({ theme }) => ({
+    borderBottom: `2px solid ${theme.gray.extraExtraLight}`,
+    [theme.media.sm]: {
+      display: 'none'
+    }
+  }),
+  ({isPlaying}) => (
+    isPlaying ? {
+      borderBottom: 'none'
+    } : null
+  )
+)
 
 const Links = styled('ul')({
   listStyle: 'none',
   display: 'flex',
+  height: '100%',
   margin: 0,
   padding: 0
 })
 
-const LinkWrapper = styled('li')({
-  '& a': {
-    padding: '15px 20px',
-    textDecoration: 'none',
-    fontSize: 18
-  }
-}, ({theme}) => ({
-  '& a': {
-    color: theme.gray.light,
-    '&:hover': {
-      color: theme.gray.medium
+const LinkWrapper = styled('li')(
+  {
+    display: 'flex',
+    '& a': {
+      padding: '15px 10px',
+      paddingTop: 17,
+      textDecoration: 'none',
+      fontSize: 14,
+      textTransform: 'uppercase'
     }
-  }
-}))
+  },
+  ({ theme }) => ({
+    '& a': {
+      color: theme.gray.medium,
+      '&:hover': {
+        color: theme.gray.medium
+      }
+    }
+  }),
+  ({ isPlaying, hasColor }) => (
+    isPlaying && hasColor ? {
+      '& a': {
+        color: '#fff'
+      }
+    } : null
+  )
+)
 
-export default class Header extends React.Component{
-  render(){
-    return(
+const Logo = styled('img')({
+  width: '15vw',
+  maxWidth: 150,
+  marginTop: '1vw',
+  marginBottom: '.9vw',
+  marginLeft: '1vw'
+})
+
+const NavWrapper = styled('nav')({
+  marginLeft: 'auto'
+})
+
+export default class Header extends React.Component {
+  render() {
+    const { location } = this.props;
+    return (
       <Fragment>
-        <DesktopHeader />
+        <DesktopHeader isPlaying={location.pathname.includes('play')} />
       </Fragment>
     )
   }
 }
 
-const DesktopHeader = () => (
-  <HeaderWrapper>
-    <nav>
+const ButtonWrapper = styled('div')({
+  display: 'flex',
+  justifyContent: 'center',
+  paddingRight: '1vw',
+  paddingLeft: 8,
+  '& button': {
+    margin: 'auto'
+  }
+})
+
+let DesktopHeader = ({ hasColor, isPlaying }) => (
+  <HeaderWrapper isPlaying>
+    <Link
+      to={{
+        pathname: '/edit'
+      }}
+    >
+      <Logo src={hasColor && isPlaying ? LightLogo : DarkLogo} alt="Bitcards" />
+    </Link>
+    <NavWrapper>
       <Links>
-        <LinkWrapper>
-          <Link to={{
-            pathname: '/edit',
-            hash: history.location.hash
-          }}>
-            New Deck
-          </Link>
-        </LinkWrapper>
-        <LinkWrapper>
-          <Link to={{
-            pathname: '/howitworks',
-            hash: history.location.hash
-          }}>
-            How it works
-          </Link>
-        </LinkWrapper>
-        <LinkWrapper>
-          <Link to={{
-            pathname: '/examples',
-            hash: history.location.hash
-          }}>
-            Examples
-          </Link>
-        </LinkWrapper>
-        <LinkWrapper>
-          <Link to={{
-            pathname: '/about',
-            hash: history.location.hash
-          }}>
+        <LinkWrapper hasColor={hasColor} isPlaying={isPlaying}>
+          <Link
+            to={{
+              pathname: '/about',
+              hash: history.location.hash
+            }}
+          >
             About
           </Link>
         </LinkWrapper>
+        <LinkWrapper hasColor={hasColor} isPlaying={isPlaying}>
+          <Link
+            to={{
+              pathname: '/examples',
+              hash: history.location.hash
+            }}
+          >
+            Examples
+          </Link>
+        </LinkWrapper>
+        <ButtonWrapper>
+          <RoundButton
+            primary={!isPlaying}
+            onClick={() => {
+              history.push('/edit')
+              store.dispatch({ type: 'RESET_STATE' })
+            }}
+          >
+            + New Deck
+          </RoundButton>
+        </ButtonWrapper>
       </Links>
-    </nav>
-    <div className={css({
-      marginLeft: 'auto'
-    })}>
-      {`Bytes: ${history.location.hash.length}`}
-    </div>
+    </NavWrapper>
   </HeaderWrapper>
 )
+DesktopHeader = connect(
+  ({app}) => ({
+    hasColor: app.value.clr
+  })
+)(DesktopHeader)

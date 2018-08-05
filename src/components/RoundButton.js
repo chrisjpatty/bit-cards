@@ -40,6 +40,14 @@ const StyledButton = styled('button')({
       background: theme.gray.light
     },
   } : null
+), ({theme, primary}) => (
+  primary ? {
+    background: theme.primary.color,
+    color: '#fff',
+    '&:active': {
+      background: theme.primary.dark
+    },
+  } : null
 )
 )
 
