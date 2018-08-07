@@ -11,6 +11,7 @@ import FOB from '../components/FOB'
 import { PlayIcon } from '../Icons'
 import Toast from '../components/Toast'
 import RoundButton from '../components/RoundButton'
+import Tutorial from '../components/Tutorial'
 
 export const cardTemplate = {
   ftype: 't',
@@ -23,6 +24,7 @@ export const cardTemplate = {
 }
 
 class Edit extends React.Component {
+  state = { tutorialOpen: false }
   componentWillUnmount = () => {
     if (this.runningWorker && this.runningWorker.cancel) {
       this.runningWorker.cancel()
@@ -188,6 +190,12 @@ class Edit extends React.Component {
       }
     })
   }
+  startTutorial = () => {
+    this.setState({tutorialOpen: true})
+  }
+  endTutorial = () => {
+    this.setState({tutorialOpen: false})
+  }
   render() {
     const { cards, title } = this.props.value
     const { deletedCard } = this.props;
@@ -199,9 +207,10 @@ class Edit extends React.Component {
           swapSides={this.swapSides}
           toggleColors={this.toggleColors}
           toggleDoubleSided={this.toggleDoubleSided}
+          startTutorial={this.startTutorial}
         />
         <Cards cards={cards} onChange={this.setCards} addCard={this.addCard} />
-        <FOB onClick={this.playCards}>
+        <FOB id='tutorial-play' onClick={this.playCards}>
           <PlayIcon />
         </FOB>
         {
@@ -214,6 +223,10 @@ class Edit extends React.Component {
               Undo
             </RoundButton>
           </Toast>
+        }
+        {
+          this.state.tutorialOpen &&
+          <Tutorial onExitRequested={this.endTutorial}/>
         }
       </Page>
     )

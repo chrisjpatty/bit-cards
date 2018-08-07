@@ -126,7 +126,7 @@ class EditableCard extends React.Component {
     }
   }
   render() {
-    const { card, enableColors, doubleSided } = this.props
+    const { card, enableColors, doubleSided, isFirst } = this.props
     const { front, back, color, ftype, btype, falt, balt } = card
     // console.log(card);
     return (
@@ -147,6 +147,7 @@ class EditableCard extends React.Component {
             altText={falt}
             label="front"
             type={ftype}
+            isFirst={isFirst}
             left
           />
           {doubleSided && (
@@ -163,6 +164,7 @@ class EditableCard extends React.Component {
               onAltTextChange={value => {
                 this.setAltText('back', value)
               }}
+              isFirst={isFirst}
               altText={balt}
               label="back"
               right
@@ -172,13 +174,18 @@ class EditableCard extends React.Component {
         <ControlsRow>
           {
             enableColors &&
-            <ColorPickerWithButton color={color} onChange={color => {
-              this.setValue('color', color)
-            }} />
+            <ColorPickerWithButton
+              color={color}
+              id={isFirst ? 'tutorial-card-color-control' : ''}
+              onChange={color => {
+                this.setValue('color', color)
+              }}
+            />
           }
           <RightAlign>
             <RoundButton
               onClick={this.deleteCard}
+              id={isFirst ? 'tutorial-card-delete-swap' : ''}
             >
               Delete Card
             </RoundButton>
@@ -376,7 +383,8 @@ class EditableCardSide extends React.Component {
       right,
       type,
       altText,
-      onTypeChange
+      onTypeChange,
+      isFirst
     } = this.props
     return (
       <SideWrapper>
@@ -384,6 +392,7 @@ class EditableCardSide extends React.Component {
           value={value}
           onBlur={this.stopEditing}
           onChange={this.setSideContent}
+          id={isFirst ? `tutorial-card-${label}-input` : ''}
           left={left}
           right={right}
           placeholder={type === 't' ? `Lorum ipsum delorum...` : `http://imageurl...`}
@@ -401,7 +410,7 @@ class EditableCardSide extends React.Component {
             />
           </AltTextWrapper>
         }
-        <CardControlsWrapper>
+        <CardControlsWrapper id={isFirst && label === 'front' ? 'tutorial-card-controls' : ''}>
           <RoundButton
             active={type === 't'}
             onClick={()=>{
@@ -489,12 +498,13 @@ class ColorPickerWithButton extends React.Component {
     this.props.onChange(color)
   }
   render() {
-    const { color } = this.props
+    const { color, id } = this.props
     const selected = COLORS[color] || {}
     return (
       <React.Fragment>
         <ButtonWrapper>
           <ColorButton
+            id={id}
             style={{
               background: selected.color
             }}

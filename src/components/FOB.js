@@ -10,9 +10,6 @@ const ButtonWrapper = styled('button')(
     right: 30,
     bottom: 30,
     border: 'none',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 10,
     paddingLeft: 16,
     paddingBottom: 11,
@@ -42,12 +39,20 @@ const ButtonWrapper = styled('button')(
     typeof cssFunction === 'function' ? cssFunction(theme) : null
 )
 
+const FlexWrapper = styled('div')({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+})
+
 export default class FOB extends React.Component {
   render() {
     const { children, cssFunction, ...restProps } = this.props
     return (
       <ButtonWrapper cssFunction={cssFunction} {...restProps}>
-        {children}
+        <FlexWrapper>
+          {children}
+        </FlexWrapper>
       </ButtonWrapper>
     )
   }

@@ -214,7 +214,8 @@ class Play extends React.Component {
         <FOB
           cssFunction={theme => ({
             background: theme.danger.color,
-            padding: 10,
+            paddingLeft: 0,
+            padding: 0,
             '&:hover': {
               background: theme.danger.light
             }

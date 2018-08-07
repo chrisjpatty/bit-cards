@@ -34,6 +34,7 @@ export default class Cards extends React.Component {
       <Wrapper>
         {cards.map((card, i) => (
           <EditableCard
+            isFirst={i === 0}
             card={card}
             onChange={this.mergeCardChanges}
             deleteCard={this.deleteCardByIndex}
@@ -50,7 +51,7 @@ export default class Cards extends React.Component {
             padding: 15
           })}
         >
-          <CircularButton onClick={addCard}>
+          <CircularButton id='tutorial-add-card' onClick={addCard}>
             <PlusIcon />
           </CircularButton>
         </div>

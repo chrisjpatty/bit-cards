@@ -273,6 +273,7 @@ export const CardWrapper = styled('div')(
     '-webkit-backface-visibility': 'hidden',
     whiteSpace: 'pre-wrap',
     overflow: 'hidden',
+    willChange: 'transform',
     '& img': {
       maxWidth: '55vw',
       maxHeight: '45vh',
@@ -284,6 +285,11 @@ export const CardWrapper = styled('div')(
       marginTop: '1vh',
       marginBottom: '1vh',
       wordBreak: 'break-word'
+    },
+    '@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0)': {
+      '@media': {
+        '-webkit-transform': 'translate3d(0,0,0)'
+       }
     }
     // paddingBottom: 'calc(7vh + 30px)'
   },
@@ -312,7 +318,12 @@ export const Positioner = styled('div')({
   position: 'fixed',
   left: '50vw',
   top: '46vh',
-  zIndex: 10
+  zIndex: 10,
+  '@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0)': {
+    '@media': {
+      top: '40vh'
+     }
+  }
 })
 
 export const Perspective = styled('div')({

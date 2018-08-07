@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react'
 import styled from 'react-emotion'
 import { connect } from 'react-redux'
-import { css } from 'emotion'
 import { Link } from 'react-router-dom'
 import { history } from '../index'
 import RoundButton from './RoundButton'
 import LightLogo from '../img/bitcards_logo_on_dark.svg'
 import DarkLogo from '../img/bitcards_logo_on_light.svg'
 import store from '../store'
+import MobileHeader from './MobileHeader'
 
 const HeaderWrapper = styled('header')(
   {
@@ -27,7 +27,12 @@ const HeaderWrapper = styled('header')(
     isPlaying ? {
       borderBottom: 'none'
     } : null
-  )
+  ),
+  ({theme}) => ({
+    [theme.media.sm]: {
+      display: 'none'
+    }
+  })
 )
 
 const Links = styled('ul')({
@@ -81,9 +86,11 @@ const NavWrapper = styled('nav')({
 export default class Header extends React.Component {
   render() {
     const { location } = this.props;
+    const isPlaying = location.pathname.includes('play');
     return (
       <Fragment>
-        <DesktopHeader isPlaying={location.pathname.includes('play')} />
+        <DesktopHeader isPlaying={isPlaying} />
+        <MobileHeader isPlaying={isPlaying} />
       </Fragment>
     )
   }
