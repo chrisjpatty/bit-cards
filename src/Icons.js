@@ -6,6 +6,7 @@ export const PlusIcon = () => (
     y="0px"
     viewBox="0 0 491.86 491.86"
   >
+    <title>Add card</title>
     <g>
       <g>
         <path
@@ -31,6 +32,7 @@ export const PlayIcon = () => (
 
 export const SwipeIcon = () => (
   <svg viewBox="0 0 128.56 140.8" style={{fill: 'currentColor'}}>
+    <title>Swipe to advance</title>
     <g>
       <g>
         <g>
@@ -45,6 +47,7 @@ export const SwipeIcon = () => (
 
 export const TapIcon = () => (
   <svg viewBox="0 0 113.78 138.72" style={{fill: 'currentColor'}}>
+    <title>Tap to flip</title>
     <g>
       <g>
         <g>

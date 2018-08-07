@@ -46,9 +46,9 @@ class MobileHeader extends React.Component{
   const { isPlaying, hasColor } = this.props;
     return(
       <HeaderWrapper>
-        <Logo src={isPlaying ? LightLogo : DarkLogo} />
+        <Logo src={isPlaying ? LightLogo : DarkLogo} alt="Bitcards" />
         <AlignRight>
-          <MenuButton light={isPlaying && hasColor} onClick={this.toggleMenu}>
+          <MenuButton light={isPlaying && hasColor} onClick={this.toggleMenu} aria-label='Open Menu'>
             <HamburgerIcon/>
           </MenuButton>
         </AlignRight>

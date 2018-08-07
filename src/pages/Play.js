@@ -220,6 +220,7 @@ class Play extends React.Component {
               background: theme.danger.light
             }
           })}
+          aria-label='Stop'
           onClick={this.stopPlaying}
         >
           <StopIcon />

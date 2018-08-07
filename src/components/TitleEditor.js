@@ -11,9 +11,11 @@ import { PulseTip } from './Tutorial'
 class TitleEditor extends React.Component {
   state = { isNewUser: false }
   componentDidMount = () => {
-    const hasViewedTutorial = localStorage.getItem('hasViewedTutorial') ? true : false;
-    if(!hasViewedTutorial){
-      this.setState({isNewUser: true})
+    const hasViewedTutorial = localStorage.getItem('hasViewedTutorial')
+      ? true
+      : false
+    if (!hasViewedTutorial) {
+      this.setState({ isNewUser: true })
       localStorage.setItem('hasViewedTutorial', true)
     }
   }
@@ -24,9 +26,9 @@ class TitleEditor extends React.Component {
     this.input.select()
   }
   startTutorial = () => {
-    if(this.state.isNewUser){
+    if (this.state.isNewUser) {
       localStorage.setItem('hasViewedTutorial', true)
-      this.setState({isNewUser: false})
+      this.setState({ isNewUser: false })
     }
     this.props.startTutorial()
   }
@@ -37,14 +39,14 @@ class TitleEditor extends React.Component {
       toggleColors,
       toggleDoubleSided,
       colorsEnabled,
-      doubleSided,
+      doubleSided
     } = this.props
     return (
       <TitleWrapper>
         <InputRow>
           <TitleInput
             type="text"
-            id='tutorial-title-input'
+            id="tutorial-title-input"
             innerRef={r => {
               this.input = r
             }}
@@ -54,22 +56,30 @@ class TitleEditor extends React.Component {
             onChange={this.setTitle}
           />
           <TutorialButtonWrapper>
-            {
-              this.state.isNewUser &&
-              <PulseTip style={{left: 0, top: 0, width: 30, height: 30}}/>
-            }
-            <RoundButton style={{padding: '4px 7px', marginBottom: 3}} onClick={this.startTutorial}>
-              <FlexCenter><TutorialIcon/></FlexCenter>
+            {this.state.isNewUser && (
+              <PulseTip style={{ left: 0, top: 0, width: 30, height: 30 }} />
+            )}
+            <RoundButton
+              style={{ padding: '4px 7px', marginBottom: 3 }}
+              onClick={this.startTutorial}
+              aria-label="Start Tutorial"
+            >
+              <FlexCenter>
+                <TutorialIcon />
+              </FlexCenter>
             </RoundButton>
           </TutorialButtonWrapper>
         </InputRow>
         <ButtonRow id="tutorial-global-settings">
-          <Checkbox checked={colorsEnabled} onChange={toggleColors}>Colors</Checkbox>
-          <Checkbox checked={doubleSided} onChange={toggleDoubleSided}>Double Sided</Checkbox>
-          {
-            doubleSided &&
+          <Checkbox checked={colorsEnabled} onChange={toggleColors}>
+            Colors
+          </Checkbox>
+          <Checkbox checked={doubleSided} onChange={toggleDoubleSided}>
+            Double Sided
+          </Checkbox>
+          {doubleSided && (
             <RoundButton onClick={swapSides}>Swap Sides</RoundButton>
-          }
+          )}
         </ButtonRow>
       </TitleWrapper>
     )
@@ -145,15 +155,18 @@ const TitleInput = styled('input')(
   })
 )
 
-const ButtonRow = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  paddingRight: 30
-}, ({theme}) => ({
-  [theme.media.sm]: {
-    maxWidth: '100vw',
-    overflowX: 'auto',
-    paddingLeft: 3,
-    paddingBottom: 4
-  }
-}))
+const ButtonRow = styled('div')(
+  {
+    display: 'flex',
+    alignItems: 'center',
+    paddingRight: 30
+  },
+  ({ theme }) => ({
+    [theme.media.sm]: {
+      maxWidth: '100vw',
+      overflowX: 'auto',
+      paddingLeft: 3,
+      paddingBottom: 4
+    }
+  })
+)

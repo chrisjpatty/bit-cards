@@ -210,7 +210,7 @@ class Edit extends React.Component {
           startTutorial={this.startTutorial}
         />
         <Cards cards={cards} onChange={this.setCards} addCard={this.addCard} />
-        <FOB id='tutorial-play' onClick={this.playCards}>
+        <FOB id='tutorial-play' onClick={this.playCards} aria-label='Play'>
           <PlayIcon />
         </FOB>
         {

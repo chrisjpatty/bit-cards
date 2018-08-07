@@ -35,9 +35,10 @@ export default class StaticCard extends React.Component {
     }))
   }
   render() {
-    const { card, offset, shouldRender, inStack } = this.props
+    const { card, offset, shouldRender, inStack, active } = this.props
     const cardFront = card.ftype === 'i' ? <CardImg src={card.front} alt={card.falt} /> : card.front
     const cardBack = card.btype === 'i' ? <CardImg src={card.back} alt={card.balt} /> : card.back
+    const isOnFront = this.state.activeSide === 'front';
     return shouldRender ? (
       <Motion
         defaultStyle={{
@@ -49,7 +50,7 @@ export default class StaticCard extends React.Component {
         style={{
           x: spring(inStack ? 0 : this.state.pWidth),
           y: spring(0 - 10 * offset),
-          rotate: spring(this.state.activeSide === 'front' ? 0 : 180),
+          rotate: spring(isOnFront ? 0 : 180),
           scale: spring(1 - .01 * offset)
         }}
       >
@@ -59,16 +60,17 @@ export default class StaticCard extends React.Component {
               transform: `translate(${x}px, ${y}px) scale(${scale})`
             }}
           >
-            <Perspective>
+            <Perspective aria-hidden={!active}>
               <Flipper style={{
                 transform: `rotateY(${rotate}deg)`
               }}>
-                <CardWrapper isImage={card.ftype === 'i'} className={scrollableCSS}>
+                <CardWrapper aria-hidden={!isOnFront} isImage={card.ftype === 'i'} className={scrollableCSS}>
                   {cardFront}
                 </CardWrapper>
                 <CardWrapper
                    isImage={card.btype === 'i'}
                   className={scrollableCSS}
+                  aria-hidden={isOnFront}
                   style={{
                     transform: 'rotateY(180deg)'
                   }}

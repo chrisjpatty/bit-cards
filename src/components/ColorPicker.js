@@ -124,7 +124,7 @@ class ColorButton extends React.Component{
   render(){
     const { color, outline } = this.props;
     return(
-      <StyledButton onClick={this.selectColor} style={{
+      <StyledButton aria-label={`Select ${color}`} onClick={this.selectColor} style={{
         background: color,
         border: outline ? '1px solid rgb(199, 199, 199)' : ''
       }} />
