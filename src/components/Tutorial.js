@@ -89,7 +89,9 @@ export const PulseTip = styled('div')(
   {
     position: 'absolute',
     width: '6vw',
+    maxWidth: 50,
     height: '6vw',
+    maxHeight: 50,
     borderRadius: '100%',
     animation: 'tutorial-pulse 1s infinite',
     pointerEvents: 'none'
