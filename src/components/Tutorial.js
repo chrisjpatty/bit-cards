@@ -6,6 +6,12 @@ import { Motion, spring } from 'react-motion'
 
 const stops = [
   {
+    tip: 'Welcome to Bitcards!\n\nBitcards allows you to create beautiful, intuitive, and instantly shareable flash cards.',
+    anchorId: 'tutorial-title-input',
+    noHint: true,
+    topOffset: -100,
+  },
+  {
     anchorId: 'tutorial-title-input',
     tip: 'Tap here to name your new deck.',
     hintTopOffset: 30
@@ -19,7 +25,7 @@ const stops = [
   },
   {
     anchorId: 'tutorial-card-front-input',
-    tip: 'Tap here to edit the front side of your first card.',
+    tip: 'Tap here to edit the front side of your first card.\n\nPro tip: Bitcards support emoji! 🎉🌈😍',
     topOffset: -200,
     leftOffset: 15,
     hintTopOffset: 50,
@@ -60,7 +66,7 @@ const stops = [
   {
     anchorId: 'tutorial-play',
     tip:
-      'To save or share your cards all you need is the link to this page. All your cards are safely stored for you in the URL.',
+      'To save or share your cards all you need is the link to this page. All your cards are safely stored for you in the URL.\n\nWhen you\'re ready, tap "Exit Tutorial" to get started!',
     topOffset: -200,
     noHint: true
   }
