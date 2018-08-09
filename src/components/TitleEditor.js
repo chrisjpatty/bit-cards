@@ -63,6 +63,7 @@ class TitleEditor extends React.Component {
               style={{ padding: '4px 7px', marginBottom: 3 }}
               onClick={this.startTutorial}
               aria-label="Start Tutorial"
+              id="tutorial-tutorial-button"
             >
               <FlexCenter>
                 <TutorialIcon />

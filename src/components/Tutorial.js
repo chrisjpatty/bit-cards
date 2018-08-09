@@ -7,9 +7,9 @@ import { Motion, spring } from 'react-motion'
 const stops = [
   {
     tip: 'Welcome to Bitcards!\n\nBitcards allows you to create beautiful, intuitive, and instantly shareable flash cards.',
-    anchorId: 'tutorial-title-input',
+    anchorId: 'tutorial-tutorial-button',
     noHint: true,
-    topOffset: -100,
+    topOffset: -70
   },
   {
     anchorId: 'tutorial-title-input',
@@ -267,7 +267,7 @@ class TipBox extends React.Component {
     } = this.props
     return (
       <Motion
-        defaultStyle={{ left: 200, top: 100 }}
+        defaultStyle={{ left: 400, top: 80 }}
         style={{
           left: spring(coordinates.left),
           top: spring(coordinates.top)

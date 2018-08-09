@@ -189,11 +189,14 @@ class EditableCard extends React.Component {
             >
               Delete Card
             </RoundButton>
-            <RoundButton
-              onClick={this.swapSides}
-            >
-              Swap Sides
-            </RoundButton>
+            {
+              doubleSided &&
+              <RoundButton
+                onClick={this.swapSides}
+              >
+                Swap Sides
+              </RoundButton>
+            }
           </RightAlign>
         </ControlsRow>
       </Wrapper>
