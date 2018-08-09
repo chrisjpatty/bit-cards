@@ -42,15 +42,23 @@ export default [
       { type: 'text', value: '🌈' },
       { type: 'text', value: '💩' }
     ],
-    name: 'Emoji Quiz'
+    name: 'Emoji Quiz',
+    link:
+      'https://bitcards.fun/edit#XQAAAALCAgAAAAAAAABCKUqGk9nLKu3hvSKo8AP5Dg49bw64VWZzeKdUoX3fNHIRcoy4s34H_UhAY32_L7Db3t3r8X7T75fOhQvWOAuwU1PpSrUn8k3x08LhPqG2USvb05BLoT9fiJ5y-ztW0EPpQjYwaVCFd9QeSI8SPutLn5-7qp8adM43SbbDHy2GF7411G6pqBbjIPczuyOtQWWuXxLUeJ5WBhxCOM7Qrz8tQ0ehYk47XU98aPESvTtZkZdeXMc3aBdzht4ko0Sk7ayoELNyLUBfUdzxEd3D4lzK1gTg4BFX4xdFT8OoOeyzf1_W9W6Gh1fCmr6cpDskx594AkIKK4HwGb5RF68t_7ZU5e-9XhOG2jQuOgTikO96mHtlHfgjp8a34h-qe__yXOmU'
   },
   {
     cards: [
       { type: 'text', value: 'Edgar Allen Poe' },
-      { type: 'text', value: 'Nevermore' },
-      { type: 'text', value: 'Quoth the raven' }
+      {
+        type: 'image',
+        value:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Edgar_Allan_Poe_daguerreotype_crop.png/343px-Edgar_Allan_Poe_daguerreotype_crop.png'
+      },
+      { type: 'text', value: 'kingdom by the sea' }
     ],
-    name: 'The Raven'
+    name: 'Annabel Lee',
+    link:
+      'https://bitcards.fun/edit#XQAAAAJ-CAAAAAAAAABCKUqGk9nLKu90SuaVwxHMaNvH14zQi732ByRdx41qDKjrD0T5LwOJqPPmpeEzsOOelGqQ-ZfjJzVEDdDbdeVf5r8-YvL3KMnHcgCmwk98SbqZgNnXL8FJ1_l9EXxbqrydY54tth1VPXuodTtQBS4lbpmDLJ8pTevIKJiDxcG5JwaCO3acvXkjsI2xfmEX97d3T6idggfYKc4r7siwcXb8psbWxqkYHCw2sI52XpNZBodYy2_un1l34t6JtnXAsBcFj0QNP_1aqzlHPyx-M7Qn3a39Myy68-_n3ihp-Z9tsbfIPM1mt3g0oxvWZseO_NfGOUXG3uyprgy0AYqKHG9KzhnVYRDV0vJ8kH-ovzTSWFoGkbc1osK4xiGbzD67uGwpgT4pwzpNHmn2WpJbFY03--pgXmnBW6Ay6M-FRqk4ywaLVU4lSY5qqlykHEj6F2FgwYa4HjbnBRElOk4E7nIaTz4--89Lpw28USMN4PwKzCMF0MGvzy1Kg32wmUFbKyojPh8kX8uu3ax-s7VrDUj2mKx3PNJBGihyWb6ikELgie7KbDMe4wpOvg58vY2hRLI_zWxe0BdQG0rwcSsYS-cRZwwd0gpId5MMlgMMynTDkTal-m7SZQkuaNrEgt0OTQsvGv4itWVtujXuCApo95kuw_mLtQuZtMhInYlqrdugK4zcjqz6ZxqUJ0g0Xd0nFewrh1YWskuCpD7la0-4igz-QRkAUTDinSD-izH0lk1VAKtThUv9Ds8W6DcskKqt4RfbSP8a0ESO5AhfNJpLyeGjmrgZLv7PE18lmt647zQABfpvyVGPVGR5YTv9xl72WItRI-y168xVrMdPs1kGmb6OIwR4VR8oIZWS0t-2C-8ZaRgjVmxpanxvVlc54-lKmOtpDJfuJyP122cvZW8o59rATHbmo--Jlg_247eHRj9sUPjAHMbOj1upDfOmvAJu2BW9VCLchRW7Kkt58CtBJc8dLyHP7hqJk2IxWWBtYpJwHJV0vRzgFKVAjdzrUPg4FpM-Jul7nUd2Yu92kVEYD0N5RuPZFsSBLe0rZusenOZWvFRUyoPk96d2hdMAv1MTrVyeM08ib_PV79sSqE_KICYjSw9Cc9IFjsV3-1fSQp0Cp1X_teniDg'
   },
   {
     cards: [

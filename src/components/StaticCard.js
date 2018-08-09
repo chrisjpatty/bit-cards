@@ -34,7 +34,7 @@ export default class StaticCard extends React.Component {
       activeSide: state.activeSide === 'front' ? 'back' : 'front'
     }))
   }
-  getFontSize = string => {
+  getFontSize = (string='') => {
     const numBreaks = string.split(/\n/).length
     if(string.length > 200 || numBreaks > 5){
       return '4vh'
