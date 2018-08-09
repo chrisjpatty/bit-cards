@@ -188,7 +188,13 @@ export default class Tutorial extends React.Component {
         activeIndex: activeIndex + 1
       }),
       () => {
-        this.setActiveCoordinates()
+        try {
+          this.setActiveCoordinates()
+        } catch (e) {
+          if(this.state.activeIndex !== stops.length - 1){
+            this.incrementIndex()
+          }
+        }
       }
     )
   }
@@ -198,7 +204,13 @@ export default class Tutorial extends React.Component {
         activeIndex: activeIndex - 1
       }),
       () => {
-        this.setActiveCoordinates()
+        try {
+          this.setActiveCoordinates()
+        } catch (e) {
+          if(this.state.activeIndex !== 0){
+            this.decrementIndex()
+          }
+        }
       }
     )
   }

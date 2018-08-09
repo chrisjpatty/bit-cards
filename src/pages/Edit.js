@@ -12,6 +12,7 @@ import { PlayIcon } from '../Icons'
 import Toast from '../components/Toast'
 import RoundButton from '../components/RoundButton'
 import Tutorial from '../components/Tutorial'
+import {Helmet} from "react-helmet"
 
 export const cardTemplate = {
   ftype: 't',
@@ -20,7 +21,7 @@ export const cardTemplate = {
   falt: '',
   balt: '',
   back: '',
-  color: 1
+  color: 6
 }
 
 class Edit extends React.Component {
@@ -201,6 +202,9 @@ class Edit extends React.Component {
     const { deletedCard } = this.props;
     return (
       <Page>
+        <Helmet>
+          <title>{`${title}|Bitcards edit`}</title>
+        </Helmet>
         <TitleEditor
           title={title}
           onChange={this.setTitle}

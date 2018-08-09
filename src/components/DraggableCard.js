@@ -22,9 +22,11 @@ export default class ActiveCard extends React.Component {
     exited: false
   }
   flip = () => {
-    this.setState(state => ({
-      activeSide: state.activeSide === 'front' ? 'back' : 'front'
-    }))
+    if(this.props.active){
+      this.setState(state => ({
+        activeSide: state.activeSide === 'front' ? 'back' : 'front'
+      }))
+    }
   }
   getOffscreenCoordinates = ({ xDistance, yDistance, pWidth, pHeight }) => {
     let offScreenX, offScreenY

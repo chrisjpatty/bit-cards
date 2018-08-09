@@ -28,5 +28,8 @@ export const getFontSize = string => {
   if(string.length > 30){
     return '4vh'
   }
+  if(string.length <= 3){
+    return '10vh'
+  }
   return ''
 }

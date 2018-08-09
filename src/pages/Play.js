@@ -11,6 +11,7 @@ import CircularButton from '../components/CircularButton'
 import { withTheme } from 'emotion-theming'
 import { COLORS } from '../components/ColorPicker'
 import { Front, Back } from '../components/InstructionCard'
+import {Helmet} from "react-helmet"
 
 const StopIcon = styled('div')({
   pointerEvents: 'none',
@@ -148,12 +149,15 @@ class Play extends React.Component {
     this.activeCard.flip()
   }
   render() {
-    const { enableColors, doubleSided, theme, cards, preferTouch } = this.props
+    const { enableColors, doubleSided, theme, cards, preferTouch, title } = this.props
     // const { title } = this.props.value;
     const activeCard =
       cards[cards.length - this.state.activeIndex - 1] || defaultCard
     return (
       <Page>
+        <Helmet>
+          <title>{`${title}|Bitcards`}</title>
+        </Helmet>
         <CardsWrapper>
           {cards.map((card, i) => {
             const index = cards.length - i - 1
@@ -271,6 +275,7 @@ export default compose(
     cards: state.app.value.cards.slice().reverse(),
     enableColors: state.app.value.clr ? true : false,
     doubleSided: state.app.value.sds === 2,
-    preferTouch: state.app.primaryInput === 'touch'
+    preferTouch: state.app.primaryInput === 'touch',
+    title: state.app.value.title
   }))
 )(Play)

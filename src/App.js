@@ -6,6 +6,7 @@ import { compose } from 'redux'
 import { Route } from 'react-router-dom'
 import Edit from './pages/Edit'
 import Play from './pages/Play'
+import Examples from './pages/Examples'
 import Header from './components/Header'
 import { cardTemplate } from './pages/Edit'
 import 'normalize.css'
@@ -67,6 +68,7 @@ class App extends Component {
         <Header location={this.props.location} />
         <Route component={Edit} path="/edit" />
         <Route component={Play} path="/play" />
+        <Route component={Examples} path="/examples" />
       </div>
     );
   }
