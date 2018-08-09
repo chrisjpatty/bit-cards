@@ -73,7 +73,9 @@ export default [
           'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/320px-React-icon.svg.png'
       }
     ],
-    name: 'What are Bitcards?'
+    name: 'What are Bitcards?',
+    link:
+      'https://bitcards.fun/edit#XQAAAAJ-BgAAAAAAAABCKUqGk9nLKvqhguyI_Af723YtWz3_KI_Cnj9GsB-YUDRvMdW_1xVUy4548RM_z78OyioyC8VacnMTjuA68mFT-SDVRf2Qz7EfoL731uToxXxnX6vFXuaP-VNuhIRakHqsLjR_Twxq4bsPqKOiOf4iFs19pswW71qsRKl-Y6iN8oQKAV9LQ0yIksuNeAzQeZMkl0tNki6i7pg5sJrefhbkNdjZBAOTnnSPbMHNX9r1XOygLGugRXiRNT_ZZnrtyM3c03S32Bo9EOetZfFmPf197k4EgZdsh89qg1mUo0ZcfTgMpOYHncov4fVaZvoQn4Qosk-gxYbKw-Vi8hcqIVY4nks5AVRKqnrqod3cEwJHMq26-GzZ-Tm9fKCVGIwlnFkog4ftccxGF3ZwrLYp1jz7pV8KkrjXZtK-BLJBf6JWvT69CJUX1o_YLemr8gddCGOAZc4MDq4mTPH6zHYwvgJs54fAXuR-9JgzbxqgFEWsD4Oq57eQpCZPqGjbzuIL8AMNHMzb5PrfeCzVJaB8L-z0pOPjDGpNMJocf6e-Dqtgz3SrcmBE8UPksVS05qHUficOs9eUDsoKbgtr673XkHLLnuu9FTRVhZpYDt5rNZqNzSF8Yw1ociosB94l5aONDJllY1e2SdKdeodmyUzpWr2qu7f9dlzVMPwPSfMyWFTityO5ropFmDT-3CLm7B7yhjey2HQFM83PeCql3dG7lucxTyNT_siu4YrfwJ1NCwtUOSmmeOHdD1brF8D_70jw3SkhGbHMIlQvB4EQicXzVHZzvXgNW0E2VlqucFiDpmuzk-PZm1nGzBPefOmjBQlsWpFEXrPJODX789aaYYAh8DJnCJzWQ2Z_pKOuA6eTdVTN35Kqz-75S_6dSdz-jRw5e7RDn9itQpowUTo8ClF0FUxhUjojlqVjao1Jk4WT2Lz_b7gMSWs3OSL5wXcY5wRsgwrQnjtyqCAZfj6Zp71sPWK1wHS565W46rfNYKD2nrAKsl-_f1p9bRPy0YAWpxtqdSAlI9Z8WTuqQQNZtN5bX7MWGF7T8In_oqxq8A'
   },
   {
     cards: [
@@ -81,6 +83,8 @@ export default [
       { type: 'text', value: '💻' },
       { type: 'image', value: ChrisPhoto }
     ],
-    name: 'Who made this?'
+    name: 'Who made this?',
+    link:
+      'https://bitcards.netlify.com/edit#XQAAAAIhAgAAAAAAAABCKUqGk9nLKvRJbvFr3fihvI9H06fOZmZx0jk9GZ4H9g1cF2BH3g7zyd51x13WbwLWxXNTmoCHx1yQcu5uhK0no7dHyZ4XRzJoCE7pk9M1kp2UV2W-YsS9QHwUv4QGRvIfO7DqXZn8ngYZ6AvRE1lrn8cu7ryLHNokSOuzOQ5hDy5lbp_vkAj9P39IRqU07Zyjbx3ScZhK44wHEPg_gLrWr_E7wR7Wsk7Pn03jGbv7x4YL8ejyLTpnhQJXSnE5LWPPVtW_I3GvSFM8x6Ci9pEwW7lGEi_jjFyMGi4F52OpiMa3O4U51EXs9tFaIg7dWSLrz9s4sbyNEyIauTqMOg6AHNa5mkrKRxTByZQ5yMTL5CQWkrGZ0EFj47p6smYp8EavSTQPR4KNtiZOJgpaHsE_JTmgON67arfrU2iMPmf78nw0cjutnxv0lV7GVANCHlWDQ-T7NKtz65gSpLUEK0nqFEVH3qRTEYD7mSkgqrU9ouORJrzOlk29swRyjQmleiYHGycEGSv4uSYp__kqFSc'
   }
 ]
