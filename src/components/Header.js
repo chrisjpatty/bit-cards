@@ -145,7 +145,7 @@ let DesktopHeader = ({ hasColor, isPlaying }) => (
               store.dispatch({ type: 'RESET_STATE' })
             }}
           >
-            + New Deck
+            <span role='img' aria-label="" aria-hidden={true}>🌈</span> New Deck
           </RoundButton>
         </ButtonWrapper>
       </Links>

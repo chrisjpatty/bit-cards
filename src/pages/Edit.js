@@ -203,7 +203,7 @@ class Edit extends React.Component {
     return (
       <Page>
         <Helmet>
-          <title>{`${title}|Bitcards edit`}</title>
+          <title>{`✏️ ${title || 'New Deck'} | Bitcards`}</title>
         </Helmet>
         <TitleEditor
           title={title}
