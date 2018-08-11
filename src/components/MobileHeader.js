@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'react-emotion'
 import { connect } from 'react-redux'
-import LightLogo from '../img/bitcards_logo_on_dark.svg'
-import DarkLogo from '../img/bitcards_logo_on_light.svg'
+import LightLogo from '../img/bitcards_logo_white.svg'
+import DarkLogo from '../img/bitcards_logo.svg'
 import { HamburgerIcon } from '../Icons'
 import MobileSlideout from './MobileSlideout'
 

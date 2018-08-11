@@ -82,8 +82,10 @@ const ExampleWrapper = styled('div')({
 
 const Name = styled('span')({
   padding: '2vw',
-  fontSize: 25
+  fontSize: 25,
+  // fontWeight: 600
 }, ({theme}) => ({
+  // color: theme.gray.dark,
   textDecorationColor: theme.gray.extraExtraLight,
   [theme.media.sm]: {
     paddingTop: '4vw'
