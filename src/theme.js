@@ -31,5 +31,11 @@ export default {
     sm: '@media(max-width: 860px)',
     md: '@media(max-width: 920px)',
     lg: '@media(max-width: 1200px)'
+  },
+  colors: {
+    red: '#ed5555',
+    orange: '#fda639',
+    blue: '#36b7f3',
+    purple: '#7d5bbf'
   }
 }

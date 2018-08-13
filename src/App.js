@@ -6,6 +6,7 @@ import { compose } from 'redux'
 import { Route } from 'react-router-dom'
 import Edit from './pages/Edit'
 import Play from './pages/Play'
+import About from './pages/About'
 import Examples from './pages/Examples'
 import Header from './components/Header'
 import { cardTemplate } from './pages/Edit'
@@ -69,6 +70,7 @@ class App extends Component {
         <Route component={Edit} path="/edit" />
         <Route component={Play} path="/play" />
         <Route component={Examples} path="/examples" />
+        <Route component={About} path="/about"/>
       </div>
     );
   }
