@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { decode } from './utilities'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
 import { Route } from 'react-router-dom'
 import Edit from './pages/Edit'
@@ -67,6 +67,12 @@ class App extends Component {
     return (
       <div className="App">
         <Header location={this.props.location} />
+        <Route render={({location}) => (
+          <Redirect to={{
+            pathname: '/edit',
+            hash: location.hash
+          }}/>
+        )} path='/' exact/>
         <Route component={Edit} path="/edit" />
         <Route component={Play} path="/play" />
         <Route component={Examples} path="/examples" />

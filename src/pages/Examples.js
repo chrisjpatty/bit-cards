@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 import examples from '../examples'
+import Footer from '../components/Footer'
 
 const Wrapper = styled('div')({
   display: 'flex',
@@ -23,6 +24,7 @@ export default class Examples extends React.Component{
             <ExampleDeck {...exp} key={i}/>
           ))
         }
+        <Footer/>
       </Wrapper>
     )
   }

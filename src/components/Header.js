@@ -137,6 +137,16 @@ let DesktopHeader = ({ hasColor, isPlaying }) => (
             Examples
           </Link>
         </LinkWrapper>
+        <LinkWrapper hasColor={hasColor} isPlaying={isPlaying}>
+          <Link
+            to={{
+              pathname: '/edit',
+              hash: history.location.hash
+            }}
+          >
+            Edit Deck
+          </Link>
+        </LinkWrapper>
         <ButtonWrapper>
           <RoundButton
             primary={!isPlaying}

@@ -3,6 +3,7 @@ import styled from 'react-emotion'
 import BitcardsLogo from '../img/bitcards_wordmark.svg'
 import { Link } from 'react-router-dom'
 import ChrisPlusReact from '../img/react_netlify.png'
+import Footer from '../components/Footer'
 
 const Wrapper = styled('main')({
   display: 'flex',
@@ -121,6 +122,7 @@ export default class About extends React.Component {
             </Paragraph>
           </Block>
         </Section>
+        <Footer/>
       </Wrapper>
     )
   }
