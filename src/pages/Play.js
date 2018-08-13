@@ -157,6 +157,7 @@ class Play extends React.Component {
       <Page>
         <Helmet>
           <title>{`${title}|Bitcards`}</title>
+          <meta name="theme-color" content="#000000"/>
         </Helmet>
         <CardsWrapper>
           {cards.map((card, i) => {
