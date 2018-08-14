@@ -22,7 +22,7 @@ const MenuWrapper = styled('div')({
   top: 0,
   width: '100vw',
   maxWidth: 200,
-  height: '100vh',
+  height: '100%',
   // background: '#fff',
   display: 'flex'
 })

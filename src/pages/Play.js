@@ -156,7 +156,7 @@ class Play extends React.Component {
     return (
       <Page>
         <Helmet>
-          <title>{`${title}|Bitcards`}</title>
+          <title>{`${title} | Bitcards – Beautiful. Simple. Flash Cards.`}</title>
           <meta name="theme-color" content="#000000"/>
         </Helmet>
         <CardsWrapper>

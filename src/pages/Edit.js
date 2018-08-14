@@ -204,7 +204,8 @@ class Edit extends React.Component {
     return (
       <Page>
         <Helmet>
-          <title>{`✏️ ${title || 'New Deck'} | Bitcards`}</title>
+          <title>{`✏️ ${title || 'New Deck'} | Bitcards – Beautiful. Simple. Flash Cards.`}</title>
+          <meta name="theme-color" content="#ed5555" />
         </Helmet>
         <TitleEditor
           title={title}

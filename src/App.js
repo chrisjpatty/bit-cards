@@ -9,6 +9,7 @@ import Play from './pages/Play'
 import About from './pages/About'
 import Examples from './pages/Examples'
 import Header from './components/Header'
+import Helmet from 'react-helmet'
 import { cardTemplate } from './pages/Edit'
 import 'normalize.css'
 import './App.css';
@@ -66,6 +67,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Helmet>
+          <meta name="theme-color" content="#ed5555" />
+        </Helmet>
         <Header location={this.props.location} />
         <Route render={({location}) => (
           <Redirect to={{

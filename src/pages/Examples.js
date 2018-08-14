@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import examples from '../examples'
 import Footer from '../components/Footer'
+import Helmet from 'react-helmet'
 
 const Wrapper = styled('div')({
   display: 'flex',
@@ -19,6 +20,10 @@ export default class Examples extends React.Component{
   render(){
     return(
       <Wrapper>
+        <Helmet>
+          <title>{`About | Bitcards – Beautiful. Simple. Flash Cards.`}</title>
+          <meta name="theme-color" content="#ed5555" />
+        </Helmet>
         {
           examples.map((exp, i) => (
             <ExampleDeck {...exp} key={i}/>
