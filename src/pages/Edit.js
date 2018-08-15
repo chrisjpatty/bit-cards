@@ -14,6 +14,7 @@ import RoundButton from '../components/RoundButton'
 import Tutorial from '../components/Tutorial'
 import { Helmet } from "react-helmet"
 import Footer from '../components/Footer'
+import { Analytics } from '../index'
 
 export const cardTemplate = {
   ftype: 't',
@@ -27,6 +28,10 @@ export const cardTemplate = {
 
 class Edit extends React.Component {
   state = { tutorialOpen: false }
+  componentDidMount = () => {
+    Analytics.set('/edit')
+    Analytics.pageview('/edit')
+  }
   componentWillUnmount = () => {
     if (this.runningWorker && this.runningWorker.cancel) {
       this.runningWorker.cancel()
@@ -84,6 +89,10 @@ class Edit extends React.Component {
       ...value,
       cards: [...value.cards, { ...cardTemplate }]
     }))
+    Analytics.event({
+      category: 'Editing',
+      action: 'Added a card'
+    })
   }
   swapSides = () => {
     this.setGlobalValue(value => ({
@@ -121,6 +130,10 @@ class Edit extends React.Component {
         })
       })
     })
+    Analytics.event({
+      category: 'Editing',
+      action: 'Swapped sides (all)'
+    })
   }
   toggleColors = clr => {
     this.setGlobalValue((value, cache) => ({
@@ -143,6 +156,11 @@ class Edit extends React.Component {
         }
       })
     }), {skipCache: true})
+    Analytics.event({
+      category: 'Editing',
+      action: 'Toggled allowColors',
+      value: clr ? 1 : 0
+    })
   }
   toggleDoubleSided = dbl => {
     this.setGlobalValue((value, cache) => ({
@@ -165,11 +183,20 @@ class Edit extends React.Component {
         }
       })
     }), {skipCache: true})
+    Analytics.event({
+      category: 'Editing',
+      action: 'Set number of sides',
+      value: dbl ? 2 : 1
+    })
   }
   playCards = () => {
     this.props.history.push({
       pathname: '/play',
       hash: this.props.location.hash
+    })
+    Analytics.event({
+      category: 'Editing',
+      action: 'Clicked the play button'
     })
   }
   clearDeleteCache = () => {
@@ -191,12 +218,25 @@ class Edit extends React.Component {
         deletedCard: null
       }
     })
+    Analytics.event({
+      category: 'Editing',
+      action: 'Undeleted a card'
+    })
   }
   startTutorial = () => {
     this.setState({tutorialOpen: true})
+    Analytics.event({
+      category: 'Editing',
+      action: 'Started the tutorial'
+    })
   }
-  endTutorial = () => {
+  endTutorial = step => {
     this.setState({tutorialOpen: false})
+    Analytics.event({
+      category: 'Editing',
+      action: 'Exited the tutorial',
+      value: step
+    })
   }
   render() {
     const { cards, title } = this.props.value

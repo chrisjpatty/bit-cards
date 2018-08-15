@@ -5,6 +5,7 @@ import { withTheme } from 'emotion-theming'
 import { COLORS, ColorPicker } from './ColorPicker'
 import RoundButton from './RoundButton'
 import { compose } from 'redux'
+import { Analytics } from '../index'
 // import { css } from 'emotion'
 // import ContentEditable from "react-sane-contenteditable";
 
@@ -63,6 +64,12 @@ const RightAlign = styled('div')({
 
 class EditableCard extends React.Component {
   setValue = (key, value) => {
+    if(this.props.card[key].length < 100 && value.length >= 100){
+      Analytics.event({
+        category: 'Editing',
+        action: 'Added at least 100 characters to a card'
+      })
+    }
     this.props.onChange(
       {
         ...this.props.card,
@@ -73,6 +80,10 @@ class EditableCard extends React.Component {
   }
   deleteCard = () => {
     this.props.deleteCard(this.props.index)
+    Analytics.event({
+      category: 'Editing',
+      action: 'Deleted a card'
+    });
   }
   swapSides = () => {
     this.props.onChange({
@@ -82,6 +93,10 @@ class EditableCard extends React.Component {
       ftype: this.props.card.btype,
       btype: this.props.card.ftype
     }, this.props.index)
+    Analytics.event({
+      category: 'Editing',
+      action: 'Swapped sides (single)'
+    });
   }
   setType = (side, value) => {
     if(side === 'front'){
@@ -111,14 +126,31 @@ class EditableCard extends React.Component {
         }, this.props.index)
       }
     }
+    Analytics.event({
+      category: 'Editing',
+      action: 'Changed card type',
+      value: value === 't' ? 0 : 1
+    });
   }
   setAltText = (side, value) => {
     if(side === 'front'){
+      if(this.props.card.falt === ''){
+        Analytics.event({
+          category: 'Editing',
+          action: 'Added image alt text'
+        })
+      }
       this.props.onChange({
         ...this.props.card,
         falt: value
       }, this.props.index)
     }else{
+      if(this.props.card.balt === ''){
+        Analytics.event({
+          category: 'Editing',
+          action: 'Added image alt text'
+        })
+      }
       this.props.onChange({
         ...this.props.card,
         balt: value
@@ -502,6 +534,10 @@ class ColorPickerWithButton extends React.Component {
   }
   selectColor = color => {
     this.props.onChange(color)
+    Analytics.event({
+      category: 'Editing',
+      action: 'Changed a card color'
+    });
   }
   render() {
     const { color, id } = this.props

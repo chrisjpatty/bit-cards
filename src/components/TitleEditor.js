@@ -7,6 +7,7 @@ import RoundButton from './RoundButton'
 import { TutorialIcon } from '../Icons'
 import Checkbox from './Checkbox'
 import { PulseTip } from './Tutorial'
+import { Analytics } from '../index'
 
 class TitleEditor extends React.Component {
   state = { isNewUser: false }
@@ -20,6 +21,12 @@ class TitleEditor extends React.Component {
     }
   }
   setTitle = e => {
+    if(this.props.title === '' && e.target.value !== ''){
+      Analytics.event({
+        category: 'Editing',
+        action: 'Added a deck title'
+      })
+    }
     this.props.onChange(e.target.value)
   }
   select = () => {

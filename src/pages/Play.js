@@ -13,6 +13,7 @@ import { COLORS } from '../components/ColorPicker'
 import { Front, Back } from '../components/InstructionCard'
 import { Helmet } from "react-helmet"
 import { RevertIcon, BackIcon, ForwardsIcon } from '../Icons'
+import { Analytics } from '../index'
 import shortid from 'shortid'
 
 const StopIcon = styled('div')({
@@ -134,6 +135,8 @@ class Play extends React.Component {
     document.body.style.height = '100%'
     document.body.style.overflow = 'hidden'
     document.body.style.overscrollBehavior = 'none'
+    Analytics.set('/play')
+    Analytics.pageview('/play')
   }
   componentWillUnmount = () => {
     document.body.style.position = ''
@@ -154,6 +157,10 @@ class Play extends React.Component {
       pathname: '/edit',
       hash: this.props.location.hash
     })
+    Analytics.event({
+      category: 'Playing',
+      action: 'Clicked the stop button'
+    })
   }
   decrementActiveIndex = (_, callback) => {
     if (this.state.activeIndex > 0) {
@@ -163,6 +170,12 @@ class Play extends React.Component {
     }
   }
   incrementActiveIndex = (offset = 0) => {
+    if(this.state.activeIndex + 1 === this.props.cards.length){
+      Analytics.event({
+        category: 'Playing',
+        action: 'Played an entire deck'
+      })
+    }
     if (this.state.activeIndex < this.props.cards.length + offset) {
       this.setState(state => ({
         activeIndex: state.activeIndex + 1
@@ -186,6 +199,10 @@ class Play extends React.Component {
       cardKeys: this.props.cards.map(()=>shortid.generate()),
       instructionKey: shortid.generate()
     }))
+    Analytics.event({
+      category: 'Playing',
+      action: 'Restarted a deck'
+    })
   }
   flipCard = () => {
     this.activeCard.flip()

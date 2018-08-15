@@ -215,7 +215,7 @@ export default class Tutorial extends React.Component {
     )
   }
   exit = () => {
-    this.props.onExitRequested()
+    this.props.onExitRequested(this.state.activeIndex)
     window.scrollTo({
       top: 0,
       behavior: 'smooth'

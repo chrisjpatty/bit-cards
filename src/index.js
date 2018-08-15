@@ -13,12 +13,9 @@ import ReactGA from 'react-ga';
 
 ReactGA.initialize('UA-123980345-1');
 
-export const history = createBrowserHistory()
+export const Analytics = ReactGA;
 
-history.listen((location, action) => {
-  ReactGA.set(location.pathname)
-  ReactGA.pageview(location.pathname)
-})
+export const history = createBrowserHistory()
 
 ReactDOM.render(
   <Provider store={store}>

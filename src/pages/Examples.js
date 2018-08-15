@@ -3,6 +3,7 @@ import styled from 'react-emotion'
 import examples from '../examples'
 import Footer from '../components/Footer'
 import { Helmet } from 'react-helmet'
+import { Analytics } from '../index'
 
 const Wrapper = styled('div')({
   display: 'flex',
@@ -17,6 +18,10 @@ const Wrapper = styled('div')({
 }))
 
 export default class Examples extends React.Component{
+  componentDidMount = () => {
+    Analytics.set('/examples')
+    Analytics.pageview('/examples')
+  }
   render(){
     return(
       <Wrapper>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import ChrisPlusReact from '../img/react_netlify.png'
 import Footer from '../components/Footer'
 import { Helmet } from 'react-helmet'
+import { Analytics } from '../index'
 
 const Wrapper = styled('main')({
   display: 'flex',
@@ -44,6 +45,10 @@ const Color = styled('span')(({ theme, color }) => ({
 }))
 
 export default class About extends React.Component {
+  componentDidMount = () => {
+    Analytics.set('/about')
+    Analytics.pageview('/about')
+  }
   render() {
     return (
       <Wrapper>
