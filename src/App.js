@@ -11,6 +11,7 @@ import Examples from './pages/Examples'
 import Header from './components/Header'
 import { Helmet } from 'react-helmet'
 import { cardTemplate } from './pages/Edit'
+import GoogleAnalytics from './Analytics'
 import 'normalize.css'
 import './App.css';
 
@@ -18,6 +19,7 @@ class App extends Component {
   componentDidMount = () => {
     this.getStateFromHash()
     window.addEventListener('popstate', this.handlePopState)
+    GoogleAnalytics.pageview('/')
   }
   runningWorker = null;
   getStateFromHash = () => {
