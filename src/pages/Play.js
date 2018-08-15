@@ -12,7 +12,7 @@ import { withTheme } from 'emotion-theming'
 import { COLORS } from '../components/ColorPicker'
 import { Front, Back } from '../components/InstructionCard'
 import { Helmet } from "react-helmet"
-import { RevertIcon, BackIcon } from '../Icons'
+import { RevertIcon, BackIcon, ForwardsIcon } from '../Icons'
 import shortid from 'shortid'
 
 const StopIcon = styled('div')({
@@ -30,6 +30,7 @@ const FlipButtonStyles = theme =>
     bottom: 30,
     left: 'calc(50% - 40px)',
     fontSize: 20,
+    fontWeight: 800,
     textTransform: 'uppercase',
     [theme.media.sm]: {
       width: 70,
@@ -179,7 +180,7 @@ class Play extends React.Component {
       }))
     })
   }
-  restartDraggableDeck = () => {
+  restart = () => {
     this.setState(state => ({
       activeIndex: 0,
       cardKeys: this.props.cards.map(()=>shortid.generate()),
@@ -235,7 +236,7 @@ class Play extends React.Component {
                 inStack={index >= this.state.activeIndex}
                 offset={offset}
                 // index={index}
-                key={card.id || i}
+                key={this.state.cardKeys[index] || i}
               />
             )
           })}
@@ -279,14 +280,19 @@ class Play extends React.Component {
               onClick={this.decrementActiveIndex}
               disabled={this.state.activeIndex === 0}
             >
-              {`<`}
+              <BackIcon/>
             </CircularButton>
             {doubleSided && (
               <CircularButton
                 className={FlipButtonStyles(theme)}
-                onClick={this.flipCard}
+                onClick={this.state.activeIndex === cards.length ? this.restart : this.flipCard}
               >
-                Flip
+                {
+                  this.state.activeIndex === cards.length ?
+                  <RevertIcon/>
+                  :
+                  'Flip'
+                }
               </CircularButton>
             )}
             <CircularButton
@@ -296,16 +302,15 @@ class Play extends React.Component {
               }}
               disabled={this.state.activeIndex === cards.length}
             >
-              {`>`}
+              <ForwardsIcon/>
             </CircularButton>
           </React.Fragment>
         )}
         {
-          preferTouch &&
+          preferTouch && this.state.activeIndex !== 0 &&
           <CircularButton
             className={PrevButtonStyles(theme)}
             onClick={this.revertDraggable}
-            disabled={this.state.activeIndex === 0}
           >
             <BackIcon/>
           </CircularButton>
@@ -321,7 +326,7 @@ class Play extends React.Component {
           preferTouch &&
           <CircularButton
             className={RevertButtonStyles(theme)}
-            onClick={this.restartDraggableDeck}
+            onClick={this.restart}
             disabled={this.state.activeIndex === 0}
           >
             <RevertIcon/>

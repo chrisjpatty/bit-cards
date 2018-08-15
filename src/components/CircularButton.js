@@ -23,12 +23,12 @@ export default styled('button')({
     boxShadow: '0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08)',
   }
 }, ({theme}) => ({
-  color: theme.gray.extraLight,
+  color: theme.gray.light,
   '&:hover': {
-    color: theme.gray.light
+    color: theme.gray.mediumLight
   },
   '&:focus': {
-    color: theme.gray.light
+    color: theme.gray.mediumLight
   },
   '&:disabled': {
     background: theme.gray.extraLight,
