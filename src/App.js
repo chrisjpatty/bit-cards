@@ -9,7 +9,7 @@ import Play from './pages/Play'
 import About from './pages/About'
 import Examples from './pages/Examples'
 import Header from './components/Header'
-import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet'
 import { cardTemplate } from './pages/Edit'
 import 'normalize.css'
 import './App.css';

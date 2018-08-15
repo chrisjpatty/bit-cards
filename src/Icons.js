@@ -94,3 +94,18 @@ export const TutorialIcon = () => (
   	</g>
   </svg>
 )
+
+export const RevertIcon = () => (
+  <svg viewBox="0 0 50 50" style={{fill: 'currentColor'}}>
+    <title>Undo Swipe</title>
+    <path d="M26.5,7V4.23a2.35,2.35,0,0,0-3.78-1.87L14.53,8.64a2.35,2.35,0,0,0,0,3.73l8.19,6.27a2.35,2.35,0,0,0,3.78-1.87V13.21A14.41,14.41,0,1,1,10.59,27.54a3.08,3.08,0,0,0-6.17,0A20.58,20.58,0,1,0,26.5,7Z"/>
+  </svg>
+)
+
+export const BackIcon = () => (
+  <svg viewBox="0 0 50 50">
+    <title>Go Back</title>
+    <path d="M43.25,22H16.36V18.74a2.38,2.38,0,0,0-3.8-1.9l-8.2,6.3a2.35,2.35,0,0,0,0,3.7l8.2,6.3a2.37,2.37,0,0,0,3.8-1.9V28H43.25a3,3,0,1,0,0-6Z"/>
+  </svg>
+
+)

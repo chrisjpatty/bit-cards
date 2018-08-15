@@ -12,7 +12,7 @@ import { PlayIcon } from '../Icons'
 import Toast from '../components/Toast'
 import RoundButton from '../components/RoundButton'
 import Tutorial from '../components/Tutorial'
-import {Helmet} from "react-helmet"
+import { Helmet } from "react-helmet"
 import Footer from '../components/Footer'
 
 export const cardTemplate = {

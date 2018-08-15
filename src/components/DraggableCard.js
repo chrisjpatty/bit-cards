@@ -19,7 +19,9 @@ export default class ActiveCard extends React.Component {
     dragging: false,
     velocities: [],
     activeSide: 'front',
-    exited: false
+    exited: false,
+    offScreenX: 0,
+    offScreenY: 0
   }
   flip = () => {
     if(this.props.active){
@@ -167,6 +169,22 @@ export default class ActiveCard extends React.Component {
       })
     }
   }
+  revertExit = () => {
+    this.setState({
+      startX: 0,
+      startY: 0,
+      x: 0,
+      y: 0,
+      touchX: 0,
+      touchY: 0,
+      pWidth: 0,
+      pHeight: 0,
+      dragging: false,
+      startedDragging: false,
+      velocities: [],
+      exited: false
+    })
+  }
   render() {
     const { card, offset, shouldRender, active, flippable } = this.props
     const cardFront = card.ftype === 'i' ? <CardImg src={card.front} alt={card.falt}/> : card.front
@@ -175,8 +193,8 @@ export default class ActiveCard extends React.Component {
       <React.Fragment>
         <Motion
           defaultStyle={{
-            x: 0,
-            y: 0 - 10 * (offset - 1),
+            x: this.state.offScreenX,
+            y: this.state.offScreenY - 10 * (offset - 1),
             rotate: 0,
             scale: 1 - 0.02 * offset
           }}

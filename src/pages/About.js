@@ -4,7 +4,7 @@ import BitcardsLogo from '../img/bitcards_wordmark.svg'
 import { Link } from 'react-router-dom'
 import ChrisPlusReact from '../img/react_netlify.png'
 import Footer from '../components/Footer'
-import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet'
 
 const Wrapper = styled('main')({
   display: 'flex',

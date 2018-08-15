@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import examples from '../examples'
 import Footer from '../components/Footer'
-import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet'
 
 const Wrapper = styled('div')({
   display: 'flex',

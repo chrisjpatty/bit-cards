@@ -11,7 +11,9 @@ import CircularButton from '../components/CircularButton'
 import { withTheme } from 'emotion-theming'
 import { COLORS } from '../components/ColorPicker'
 import { Front, Back } from '../components/InstructionCard'
-import {Helmet} from "react-helmet"
+import { Helmet } from "react-helmet"
+import { RevertIcon, BackIcon } from '../Icons'
+import shortid from 'shortid'
 
 const StopIcon = styled('div')({
   pointerEvents: 'none',
@@ -67,6 +69,17 @@ const NextButtonStyles = theme =>
     }
   })
 
+const RevertButtonStyles = theme => (
+  css({
+    position: 'fixed',
+    width: 100,
+    height: 100,
+    left: 'calc(50% - 50px)',
+    top: 'calc(50% - 50px)',
+    paddingTop: 8
+  })
+)
+
 const Background = styled('div')({
   background: '#fff',
   transition: 'background 500ms',
@@ -97,7 +110,7 @@ const CardsWrapper = styled('div')(
 
 const defaultCard = {
   id: 'blank',
-  color: 17
+  color: 18
 }
 
 const instructionCard = {
@@ -109,8 +122,11 @@ const instructionCard = {
 
 class Play extends React.Component {
   state = {
-    activeIndex: 0
+    activeIndex: 0,
+    cardKeys: this.props.cards.map(()=>shortid.generate()),
+    instructionKey: shortid.generate()
   }
+  cards = []
   componentDidMount = () => {
     document.body.style.position = 'fixed'
     document.body.style.width = '100%'
@@ -125,25 +141,50 @@ class Play extends React.Component {
     document.body.style.overflow = ''
     document.body.style.overscrollBehavior = ''
   }
+  componentWillReceiveProps = nextProps => {
+    if(this.props.cards !== nextProps.cards){
+      this.setState({
+        cardKeys: nextProps.cards.map(()=>shortid.generate())
+      })
+    }
+  }
   stopPlaying = () => {
     this.props.history.push({
       pathname: '/edit',
       hash: this.props.location.hash
     })
   }
-  decrementActiveIndex = () => {
+  decrementActiveIndex = (_, callback) => {
     if (this.state.activeIndex > 0) {
       this.setState(state => ({
         activeIndex: state.activeIndex - 1
-      }))
+      }), callback)
     }
   }
   incrementActiveIndex = (offset = 0) => {
-    if (this.state.activeIndex < this.props.cards.length - 1 + offset) {
+    if (this.state.activeIndex < this.props.cards.length + offset) {
       this.setState(state => ({
         activeIndex: state.activeIndex + 1
       }))
     }
+  }
+  revertDraggable = () => {
+    this.decrementActiveIndex(null, () => {
+      this.setState(state => ({
+        cardKeys: [
+          ...state.cardKeys.slice(0, this.state.activeIndex),
+          shortid.generate(),
+          ...state.cardKeys.slice(this.state.activeIndex + 1)
+        ]
+      }))
+    })
+  }
+  restartDraggableDeck = () => {
+    this.setState(state => ({
+      activeIndex: 0,
+      cardKeys: this.props.cards.map(()=>shortid.generate()),
+      instructionKey: shortid.generate()
+    }))
   }
   flipCard = () => {
     this.activeCard.flip()
@@ -165,6 +206,7 @@ class Play extends React.Component {
             const offset = Math.abs(this.state.activeIndex - index)
             return preferTouch ? (
               <DraggableCard
+                ref={ref=>{this.cards[index] = ref}}
                 active={this.state.activeIndex === index}
                 card={card}
                 onExited={this.incrementActiveIndex}
@@ -175,7 +217,7 @@ class Play extends React.Component {
                 flippable={doubleSided}
                 offset={offset}
                 // index={index}
-                key={card.id || i}
+                key={this.state.cardKeys[index] || i}
               />
             ) : (
               <StaticCard
@@ -211,8 +253,8 @@ class Play extends React.Component {
                 0 > this.state.activeIndex - 3 &&
                 0 < this.state.activeIndex + 3
               }
-              inStack={0 >= this.state.activeIndex}
               offset={this.state.activeIndex}
+              key={this.state.instructionKey}
             />
           }
         </CardsWrapper>
@@ -258,6 +300,16 @@ class Play extends React.Component {
             </CircularButton>
           </React.Fragment>
         )}
+        {
+          preferTouch &&
+          <CircularButton
+            className={PrevButtonStyles(theme)}
+            onClick={this.revertDraggable}
+            disabled={this.state.activeIndex === 0}
+          >
+            <BackIcon/>
+          </CircularButton>
+        }
         {enableColors && (
           <Background
             style={{
@@ -265,6 +317,16 @@ class Play extends React.Component {
             }}
           />
         )}
+        {
+          preferTouch &&
+          <CircularButton
+            className={RevertButtonStyles(theme)}
+            onClick={this.restartDraggableDeck}
+            disabled={this.state.activeIndex === 0}
+          >
+            <RevertIcon/>
+          </CircularButton>
+        }
       </Page>
     )
   }
