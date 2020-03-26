@@ -10,7 +10,7 @@ import { PulseTip } from './Tutorial'
 import { Analytics } from '../index'
 
 class TitleEditor extends React.Component {
-  state = { isNewUser: false }
+  state = { isNewUser: false, uploadModalOpen: false }
   componentDidMount = () => {
     const hasViewedTutorial = localStorage.getItem('hasViewedTutorial')
       ? true
@@ -38,6 +38,9 @@ class TitleEditor extends React.Component {
       this.setState({ isNewUser: false })
     }
     this.props.startTutorial()
+  }
+  openUploadModal = () => {
+
   }
   render() {
     const {
@@ -88,6 +91,9 @@ class TitleEditor extends React.Component {
           {doubleSided && (
             <RoundButton onClick={swapSides}>Swap Sides</RoundButton>
           )}
+          <RoundButton onClick={this.openUploadModal}>
+            Upload CSV
+          </RoundButton>
         </ButtonRow>
       </TitleWrapper>
     )
