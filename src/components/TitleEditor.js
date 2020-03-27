@@ -109,7 +109,7 @@ class TitleEditor extends React.Component {
           closeOnClickOutside
         >
           {
-            ({getProps, closeModal, }) => (
+            ({getProps, closeModal }) => (
               <UploadModal
                 onRequestClose={closeModal}
                 wrapperProps={getProps()}
