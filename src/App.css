@@ -1,13 +1,55 @@
+.fade-in{
+  animation: fade-in 400ms;
+  animation-fill-mode: forwards;
+}
+
+.fade-out{
+  animation: fade-out 400ms;
+  animation-fill-mode: forwards;
+}
+
+.fade-up{
+  animation: fade-up 400ms;
+  animation-fill-mode: forwards;
+}
+
+.fade-down{
+  animation: fade-down 400ms;
+  animation-fill-mode: forwards;
+}
+
 .fade-in-fast{
   animation: fade-in 150ms;
   animation-fill-mode: forwards;
+}
+
+@keyframes fade-up {
+  from{
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fade-down {
+  from{
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  to{
+    opacity: 0;
+    transform: translateY(30px);
+  }
 }
 
 @keyframes fade-in {
   from{
     opacity: 0;
   }
-  top{
+  to{
     opacity: 1
   }
 }
@@ -35,5 +77,19 @@
   }
   100%{
     transform: scale(1)
+  }
+}
+
+.droppable-animation{
+  animation: droppable-animation 400ms infinite;
+  animation-direction: alternate;
+}
+
+@keyframes droppable-animation {
+  from{
+    transform: translateY(0%);
+  }
+  to{
+    transform: translateY(-10%);
   }
 }
