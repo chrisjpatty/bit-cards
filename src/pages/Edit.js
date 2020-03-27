@@ -89,8 +89,8 @@ class Edit extends React.Component {
       ...value,
       cards: cards.map(card => ({
         ...cardTemplate,
-        front: card[0],
-        back: card[1]
+        front: card[0] || "",
+        back: card[1] || ""
       }))
     }))
     Analytics.event({
