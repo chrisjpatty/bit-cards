@@ -8,9 +8,11 @@ import { TutorialIcon } from '../Icons'
 import Checkbox from './Checkbox'
 import { PulseTip } from './Tutorial'
 import { Analytics } from '../index'
+import ModalStateController from './ModalStateController'
+import UploadModal from './UploadModal'
 
 class TitleEditor extends React.Component {
-  state = { isNewUser: false }
+  state = { isNewUser: false, uploadModalOpen: false }
   componentDidMount = () => {
     const hasViewedTutorial = localStorage.getItem('hasViewedTutorial')
       ? true
@@ -39,6 +41,12 @@ class TitleEditor extends React.Component {
     }
     this.props.startTutorial()
   }
+  openUploadModal = () => {
+    this.setState({uploadModalOpen: true})
+  }
+  closeUploadModal = () => {
+    this.setState({uploadModalOpen: false})
+  }
   render() {
     const {
       title,
@@ -46,7 +54,8 @@ class TitleEditor extends React.Component {
       toggleColors,
       toggleDoubleSided,
       colorsEnabled,
-      doubleSided
+      doubleSided,
+      onCardsUploaded
     } = this.props
     return (
       <TitleWrapper>
@@ -88,7 +97,27 @@ class TitleEditor extends React.Component {
           {doubleSided && (
             <RoundButton onClick={swapSides}>Swap Sides</RoundButton>
           )}
+          <RoundButton onClick={this.openUploadModal}>
+            Upload CSV
+          </RoundButton>
         </ButtonRow>
+        <ModalStateController
+          enterAnimationClassName='fade-up'
+          exitAnimationClassName='fade-down'
+          isOpen={this.state.uploadModalOpen}
+          onModalClose={this.closeUploadModal}
+          closeOnClickOutside
+        >
+          {
+            ({getProps, closeModal, }) => (
+              <UploadModal
+                onRequestClose={closeModal}
+                wrapperProps={getProps()}
+                onUploaded={onCardsUploaded}
+              />
+            )
+          }
+        </ModalStateController>
       </TitleWrapper>
     )
   }

@@ -84,6 +84,20 @@ class Edit extends React.Component {
       cards
     }), { payload })
   }
+  addBulkCards = cards => {
+    this.setGlobalValue(value => ({
+      ...value,
+      cards: cards.map(card => ({
+        ...cardTemplate,
+        front: card[0] || "",
+        back: card[1] || ""
+      }))
+    }))
+    Analytics.event({
+      category: 'Editing',
+      action: 'Uploaded a CSV file'
+    })
+  }
   addCard = () => {
     this.setGlobalValue(value => ({
       ...value,
@@ -254,6 +268,7 @@ class Edit extends React.Component {
           toggleColors={this.toggleColors}
           toggleDoubleSided={this.toggleDoubleSided}
           startTutorial={this.startTutorial}
+          onCardsUploaded={this.addBulkCards}
         />
         <Cards cards={cards} onChange={this.setCards} addCard={this.addCard} />
         <FOB id='tutorial-play' onClick={this.playCards} aria-label='Play'>
