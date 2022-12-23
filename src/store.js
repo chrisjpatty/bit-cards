@@ -6,6 +6,7 @@ const initialState = {
     title: '',
     clr: true,
     sds: 2,
+    shfl: false,
     cards: [
       {
         ftype: 't',
@@ -22,6 +23,7 @@ const initialState = {
     title: '',
     clr: true,
     sds: 2,
+    shfl: false,
     cards: [
       {
         ftype: 't',

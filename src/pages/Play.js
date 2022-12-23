@@ -122,6 +122,18 @@ const instructionCard = {
   back: <Back/>
 }
 
+/* Randomize array in-place using Durstenfeld shuffle algorithm */
+const shuffleArray = rawArray => {
+  const array = rawArray.slice();
+  for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+  }
+  return array;
+}
+
 class Play extends React.Component {
   state = {
     activeIndex: 0,
@@ -357,7 +369,7 @@ export default compose(
   withTheme,
   connect(state => ({
     value: state.app.value,
-    cards: state.app.value.cards.slice().reverse(),
+    cards: state.app.value.shfl ? shuffleArray(state.app.value.cards) : state.app.value.cards.slice().reverse(),
     enableColors: state.app.value.clr ? true : false,
     doubleSided: state.app.value.sds === 2,
     preferTouch: state.app.primaryInput === 'touch',

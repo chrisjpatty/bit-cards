@@ -55,7 +55,9 @@ class TitleEditor extends React.Component {
       toggleDoubleSided,
       colorsEnabled,
       doubleSided,
-      onCardsUploaded
+      onCardsUploaded,
+      shuffled,
+      toggleShuffled
     } = this.props
     return (
       <TitleWrapper>
@@ -94,6 +96,9 @@ class TitleEditor extends React.Component {
           <Checkbox checked={doubleSided} onChange={toggleDoubleSided}>
             Double Sided
           </Checkbox>
+          <Checkbox checked={shuffled} onChange={toggleShuffled}>
+            Shuffle
+          </Checkbox>
           {doubleSided && (
             <RoundButton onClick={swapSides}>Swap Sides</RoundButton>
           )}
@@ -126,7 +131,8 @@ export default compose(
   withRouter,
   connect(state => ({
     colorsEnabled: state.app.value.clr ? true : false,
-    doubleSided: state.app.value.sds === 2
+    doubleSided: state.app.value.sds === 2,
+    shuffled: state.app.value.shfl ? true : false
   }))
 )(TitleEditor)
 

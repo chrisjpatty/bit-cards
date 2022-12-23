@@ -203,6 +203,12 @@ class Edit extends React.Component {
       value: dbl ? 2 : 1
     })
   }
+  toggleShuffled = shfl => {
+    this.setGlobalValue((value) => ({
+      ...value,
+      shfl
+    }), {skipCache: true})
+  }
   playCards = () => {
     this.props.history.push({
       pathname: '/play',
@@ -267,6 +273,7 @@ class Edit extends React.Component {
           swapSides={this.swapSides}
           toggleColors={this.toggleColors}
           toggleDoubleSided={this.toggleDoubleSided}
+          toggleShuffled={this.toggleShuffled}
           startTutorial={this.startTutorial}
           onCardsUploaded={this.addBulkCards}
         />
